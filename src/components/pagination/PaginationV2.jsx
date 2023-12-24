@@ -1,7 +1,15 @@
-function PaginationV2() {
+function PaginationV2({ onPagination, nextpage, prevpage, totalpage }) {
+  console.log(nextpage)
   return (
     <div className="flex items-center space-x-5 sm:space-x-[35px]">
-      <button aria-label="none" type="button">
+      <button
+        className="rounded-lg bg-success-50 px-4 py-1.5 text-xs font-bold text-bgray-500 dark:bg-darkblack-500 dark:text-bgray-50 lg:px-6 lg:py-2.5 lg:text-sm"
+        aria-label="none"
+        type="button"
+        onClick={() => {
+          onPagination(prevpage)
+        }}
+      >
         <span>
           <svg
             width="21"
@@ -21,14 +29,18 @@ function PaginationV2() {
         </span>
       </button>
       <div className="flex items-center">
-        <button
-          aria-label="none"
-          type="button"
-          className="rounded-lg bg-success-50 px-4 py-1.5 text-xs font-bold text-success-300 dark:bg-darkblack-500 dark:text-bgray-50 lg:px-6 lg:py-2.5 lg:text-sm"
-        >
-          1
-        </button>
-        <button
+        {/* {Array.from({ length: Math.ceil(totalpage / 10) }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => onPagination(index + 1)}
+            aria-label="none"
+            type="button"
+            className="rounded-lg bg-success-50 px-4 py-1.5 text-xs font-bold text-bgray-500 dark:bg-darkblack-500 dark:text-bgray-50 lg:px-6 lg:py-2.5 lg:text-sm"
+          >
+            {index + 1}
+          </button>
+        ))} */}
+        {/* <button
           aria-label="none"
           type="button"
           className="rounded-lg px-4 py-1.5 text-xs font-bold text-bgray-500 transition duration-300 ease-in-out hover:bg-success-50 hover:text-success-300 dark:hover:bg-darkblack-500 lg:px-6 lg:py-2.5 lg:text-sm"
@@ -43,9 +55,16 @@ function PaginationV2() {
           className="rounded-lg px-4 py-1.5 text-xs font-bold text-bgray-500 transition duration-300 ease-in-out hover:bg-success-50 hover:text-success-300 dark:hover:bg-darkblack-500 lg:px-6 lg:py-2.5 lg:text-sm"
         >
           20
-        </button>
+        </button> */}
       </div>
-      <button aria-label="none" type="button">
+      <button
+        className="rounded-lg bg-success-50 px-4 py-1.5 text-xs font-bold text-bgray-500 dark:bg-darkblack-500 dark:text-bgray-50 lg:px-6 lg:py-2.5 lg:text-sm"
+        aria-label="none"
+        type="button"
+        onClick={() => {
+          onPagination(nextpage)
+        }}
+      >
         <span>
           <svg
             width="21"

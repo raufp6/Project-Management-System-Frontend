@@ -2,12 +2,12 @@ import { useState, useContext,useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../../context/AuthContext'
-import { createStaff } from '../../../../services/UserApi'
 import {
   DefaultNotify,
   sucessNotify,
   errorNotify,
 } from '../../../../utils/toastUtils'
+import { getGroups, createStaff } from '../../../../services/Api'
 import * as yup from 'yup'
 
 //Handle Toast Notifications
@@ -35,23 +35,17 @@ function AddForm() {
 
 const { authTokens, logoutUser } = useContext(AuthContext)
 const [groups, setGroup] = useState()
-const getGroupList = async () => {
-  let response = await fetch('http://127.0.0.1:8000/api/user/group/', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + String(authTokens.access),
-    },
-  })
-  let data = await response.json()
-  if (response.status === 200) {
-    setGroup(data)
-  } else if (response.statusText === 'Unauthorized') {
-    return logoutUser()
-  }
-}
+
 useEffect(() => {
-  getGroupList()
+  const fetchGroups = async () => {
+    try {
+      const groupData = await getGroups()
+      setGroup(groupData.results)
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
+  fetchGroups()
 }, [])
 //
   const navigate = useNavigate()

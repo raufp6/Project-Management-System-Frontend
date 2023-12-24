@@ -40,8 +40,7 @@ function AddTask() {
     const fetchAllStaff = async () => {
       try {
         const staffData = await getStaffList({usertype:'emp'})
-        setUsers(staffData)
-        console.log(staffData)
+        setUsers(staffData.results)
       } catch (error) {
         errorNotify(error)
       }
@@ -49,7 +48,7 @@ function AddTask() {
     const fetchAllProjects = async () => {
       try {
         const staffData = await getProjecttList({ usertype: 'emp' })
-        setProjects(staffData)
+        setProjects(staffData.results)
       } catch (error) {
         errorNotify(error)
       }

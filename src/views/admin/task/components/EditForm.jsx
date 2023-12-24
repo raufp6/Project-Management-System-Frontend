@@ -46,8 +46,8 @@ function EditForm({ users, projects,task }) {
     setStartDate(task?.start_date)
     setPriority(task?.priority)
     setDescription(task?.description)
-    setProject(task?.project)
-    setUser(task?.assigned_to)
+    setProject(task?.project.id)
+    setUser(task?.assigned_to.id)
     setStatus(task?.status)
   }, [task])
 
@@ -89,7 +89,7 @@ function EditForm({ users, projects,task }) {
         .then((res) => {
           console.log(res)
           console.log(res.data)
-          navigate('/admin/task/')
+          // navigate('/admin/task/')
           handleToast('Task updated succesfully', 'success')
         })
         .catch((err) => {
@@ -173,15 +173,14 @@ function EditForm({ users, projects,task }) {
             name="priority"
             onChange={(e) => setPriority(e.target.value)}
           >
-            <option value="">Select a option</option>
-            <option value="cold" selected={Priority == 'cold'}>
-              Cold
+            <option value="medium" selected={Priority == 'medium'}>
+              Medium
             </option>
-            <option value="warm" selected={Priority == 'warm'}>
-              Warm
+            <option value="high" selected={Priority == 'high'}>
+              High
             </option>
-            <option value="hot" selected={Priority == 'hot'}>
-              Hot
+            <option value="low" selected={Priority == 'low'}>
+              Low
             </option>
           </select>
         </div>
@@ -198,14 +197,18 @@ function EditForm({ users, projects,task }) {
             name="status"
             onChange={(e) => setStatus(e.target.value)}
           >
-            <option value="ongoing" selected={Status == 'ongoing'}>
-              On Going
+
+            <option value="incomplete" selected={Status == 'incomplete'}>
+              In complete
             </option>
-            <option value="notstarted" selected={Status == 'notstarted'}>
-              Not Started
+            <option value="todo" selected={Status == 'todo'}>
+              To Do
+            </option>
+            <option value="doing" selected={Status == 'doing'}>
+              Doing
             </option>
             <option value="completed" selected={Status == 'completed'}>
-              Done
+              Completed
             </option>
           </select>
         </div>
@@ -222,7 +225,7 @@ function EditForm({ users, projects,task }) {
             name="project"
             onChange={(e) => setProject(e.target.value)}
           >
-            <option value="">Select a project</option>
+            {/* <option value="">Select a project</option> */}
             {projects?.map((project, index) => {
               return (
                 <option value={project.id} selected={Project == project.id}>

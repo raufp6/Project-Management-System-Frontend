@@ -9,14 +9,25 @@ import {
   ProjectCountUrl,
   UserCountUrl,
   TaskCountUrl,
-  NotificationsUrl
+  NotificationsUrl,
+  UserGroupUrl,
 } from '../services/apiUrls'
 
-export const getTaskData = async (params=null) => {
+export const getGroups = async (params = null) => {
+  try {
+    const response = await api_request.get(UserGroupUrl, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
+  }
+}
+export const getTaskData = async (params=null,url=TaskUrl) => {
     
 
   try {
-    const response = await api_request.get(TaskUrl, { params })
+    const response = await api_request.get(url, { params })
     return response.data
   } catch (errors) {
     const errorMessages = errors.inner.map((error) => error.message)

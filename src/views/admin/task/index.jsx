@@ -3,6 +3,7 @@ import ListTabTask from './components/ListTabTask'
 import { useState, useContext, useEffect,useMemo } from 'react'
 import AuthContext from '../../../context/AuthContext'
 import TaskFilter from '../../../components/form/TaskFilter'
+import { TaskUrl } from '../../../services/apiUrls'
 
 import {
   errorNotify,
@@ -20,7 +21,28 @@ function Task() {
   const [queryParams, setqueryParams] = useState([])
   
   const [tasks, setTask] = useState()
+  const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
+  const [Page,SetPage] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   
+  const fetchAllTask = async (url) => {
+    try {
+      const tasksData = await getTaskData(queryParams, url)
+      setTask(tasksData.results)
+      setNextPage(tasksData.next)
+      setPrevPage(tasksData.previous)
+
+      // setCurrentPage(tasksData.page)
+      setTotalPages(tasksData.count)
+
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
+  console.log("Page",currentPage);
+  console.log("Total page",totalPages);
   const handleSearchChange = (event) => {
     console.log('seach start')
     setSearch(event.target.value)
@@ -80,17 +102,22 @@ function Task() {
     }
     setqueryParams(filters)
   }
-  
-  useEffect(() => {
-    const fetchAllTask = async () => {
-      try {
-        const tasksData = await getTaskData(queryParams)
-        setTask(tasksData)
-      } catch (error) {
-        errorNotify(error)
-      }
+  const handlePageChange = (page) => {
+    console.log('pagination start')
+    SetPage(page)
+    filters = {
+      search: Search,
+      status: Status,
+      project: Project,
+      priority: Priority,
+      page:page
     }
-    fetchAllTask()
+    // setqueryParams(filters)
+    fetchAllTask(page)
+  }
+  useEffect(() => {
+    
+    fetchAllTask(TaskUrl)
   }, [queryParams])
 
 
@@ -110,6 +137,10 @@ function Task() {
             user={user}
             pageSize={9}
             onhandleSearchChange={handleSearchChange}
+            onPagination={handlePageChange}
+            nextpage={nextPage}
+            prevpage={prevPage}
+            totalpage={totalPages}
           />
         </section>
       </div>

@@ -7,6 +7,7 @@ export const ForgotPasswordUrl = 'auth/forgot-password'
 //Task 
 export const TaskUrl = 'task'
 export const TaskCountUrl = 'task/count/'
+
 //Project
 export const ProjectUrl = 'project'
 export const ProjectCountUrl = 'project/count/'
@@ -19,6 +20,8 @@ export const ClienttUrl = 'clients'
 export const StafftUrl = 'user'
 export const UserCountUrl = 'user/count/'
 export const UserCreateUrl = 'user/create/'
+
+export const UserGroupUrl = 'user/group/'
 
 //Notifications
 export const NotificationsUrl = 'task/get_notifications/'

@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../../context/AuthContext'
+import { getGroups } from '../../../../services/Api'
 import axios from 'axios'
 import {
   DefaultNotify,
@@ -35,36 +36,26 @@ function EditForm({ staff }) {
   const [Group, setGroup] = useState(staff?.groups)
   const [groupslist, setGroups] = useState([])
 
-
-  const getGroupList = async () => {
-    let response = await fetch('http://127.0.0.1:8000/api/user/group/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + String(authTokens.access),
-      },
-    })
-    let data = await response.json()
-    if (response.status === 200) {
-      setGroups(data)
-    } else if (response.statusText === 'Unauthorized') {
-      return logoutUser()
-    }
-  }
-
   useEffect(() => {
     setUsername(staff?.username)
     setEmail(staff?.email)
-    // setGroup(staff?.groups)
-    console.log('Groups:', Group[0])
+    setGroup(staff?.groups[0])
+    // console.log('Groups:', Group[0])
     
     
   }, [staff])
 
   useEffect(() => {
-    getGroupList()
+    const fetchGroups = async () => {
+      try {
+        const groupData = await getGroups()
+        setGroups(groupData.results)
+      } catch (error) {
+        errorNotify(error)
+      }
+    }
+    fetchGroups()
   }, [])
-  console.log(groupslist)
 
   //create client
   const UpdateStaff = async (e) => {
@@ -167,7 +158,7 @@ function EditForm({ staff }) {
             name="group"
           >
             { groupslist?.map((item) => {
-              return <option value={item.id} selected={Group[0] == item.id}>{item.name}</option>
+              return <option value={item.id} selected={Group == item.id}>{item.name}</option>
             })}
           </select>
         </div>

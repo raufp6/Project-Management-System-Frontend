@@ -66,7 +66,7 @@ function Project() {
     const fetchAllProjects = async () => {
       try {
         const projectData = await getProjecttList(queryParams)
-        setProjects(projectData)
+        setProjects(projectData.results)
       } catch (error) {
         errorNotify(error)
       }

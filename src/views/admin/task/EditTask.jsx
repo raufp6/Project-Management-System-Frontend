@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../context/AuthContext'
 import { Link, useParams } from 'react-router-dom'
+import { getStaffList, getProjecttList } from '../../../services/Api'
 import {
   DefaultNotify,
   sucessNotify,
@@ -38,46 +39,31 @@ function EditProject() {
   const [projects, setProjects] = useState()
   const [users, setUsers] = useState()
 
-  //get projects
-  const getProjecttList = async () => {
-    let response = await fetch('http://127.0.0.1:8000/api/project/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + String(authTokens.access),
-      },
-    })
-    let data = await response.json()
-    if (response.status === 200) {
-      setProjects(data)
-    } else if (response.statusText === 'Unauthorized') {
-      return logoutUser()
-    }
-  }
-  // gete User List
-  const getUserList = async () => {
-    let response = await fetch('http://127.0.0.1:8000/api/user/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + String(authTokens.access),
-      },
-    })
-    let data = await response.json()
-    if (response.status === 200) {
-      setUsers(data)
-    } else if (response.statusText === 'Unauthorized') {
-      return logoutUser()
-    }
-  }
+  
   useEffect(() => {
-    getProjecttList()
-    getUserList()
+    const fetchAllStaff = async () => {
+      try {
+        const staffData = await getStaffList({ usertype: 'emp' })
+        setUsers(staffData.results)
+      } catch (error) {
+        errorNotify(error)
+      }
+    }
+    const fetchAllProjects = async () => {
+      try {
+        const staffData = await getProjecttList({ usertype: 'emp' })
+        setProjects(staffData.results)
+      } catch (error) {
+        errorNotify(error)
+      }
+    }
+    fetchAllStaff()
+    fetchAllProjects()
   }, [])
 
   //get project details
   const getTask = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/task/${id}`, {
+    let response = await fetch(`http://127.0.0.1:8000/api/task/${id}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

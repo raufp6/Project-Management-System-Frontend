@@ -24,7 +24,8 @@ function TaskFilter({
     const fetchAllProjects = async () => {
       try {
         const projecttData = await getProjecttList()
-        setProjects(projecttData)
+        console.log(projecttData.results)
+        setProjects(projecttData.results)
       } catch (error) {
         errorNotify(error)
       }

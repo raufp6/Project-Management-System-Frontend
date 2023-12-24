@@ -7,7 +7,16 @@ import TaskTab from './TaskTab'
 import TabHeader from '../../../../components/listTab/TabHeader'
 import { isAdmin } from '../../../../utils/Permission'
 
-function ListTabTask({ data, user, pageSize, onhandleSearchChange }) {
+function ListTabTask({
+  data,
+  user,
+  pageSize,
+  onhandleSearchChange,
+  onPagination,
+  nextpage,
+  prevpage,
+  totalpage
+}) {
   return (
     <div className="w-full rounded-lg bg-white px-[24px] py-[20px] ">
       {isAdmin(user.groups[0]) && <TabHeader />}
@@ -19,7 +28,12 @@ function ListTabTask({ data, user, pageSize, onhandleSearchChange }) {
         {/* <FilterFull /> */}
 
         <TaskTab data={data} pageSize={pageSize} />
-        <Pagination />
+        <Pagination
+          onPagination={onPagination}
+          nextpage={nextpage}
+          prevpage={prevpage}
+          totalpage={totalpage}
+        />
       </div>
     </div>
   )

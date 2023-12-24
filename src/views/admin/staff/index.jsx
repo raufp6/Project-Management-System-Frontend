@@ -24,7 +24,7 @@ function Staff() {
     const fetchAllStaffs = async () => {
       try {
         const staffData = await getStaffList({ usertype: 'emp' })
-        setUsers(staffData)
+        setUsers(staffData.results)
       } catch (error) {
         errorNotify(error)
       }
