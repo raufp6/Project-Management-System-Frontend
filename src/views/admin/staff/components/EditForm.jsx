@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../../context/AuthContext'
 import { getGroups } from '../../../../services/Api'
+import profileImg from '../../../../assets/images/avatar/profile.png'
 import axios from 'axios'
 import {
   DefaultNotify,
@@ -24,26 +25,52 @@ const handleToast = (msg, type = 'default') => {
 const Schema = yup.object().shape({
   username: yup.string().required('Username field is required'),
   email: yup.string().required('Email field is required'),
-
 })
 function EditForm({ staff }) {
-  console.log(staff)
-  const navigate = useNavigate()
   const { authTokens, logoutUser } = useContext(AuthContext)
-
+  const navigate = useNavigate()
+  const [ActiveImgUpload, setActiveImgUpload] = useState(false)
   const [Username, setUsername] = useState('')
   const [Email, setEmail] = useState('')
-  const [Group, setGroup] = useState(staff?.groups)
+  const [FirstName, setFirstName] = useState('')
+  const [LastName, setLastName] = useState('')
+  const [Phone, setPhone] = useState('')
+  const [ProfilePic, setPrifilePic] = useState('')
+  const [profile_pic,setProfilePicUpload] = useState({})
+  const [JoinedDate, setJoindedDate] = useState('')
+  const [Group, setGroup] = useState([])
   const [groupslist, setGroups] = useState([])
 
+  const handleChange = (e) => {
+    console.log("sd");
+    const { name, value, type } = e.target
+
+    // If the input is a file input, update the state with the selected file
+    const updatedValue = type === 'file' ? e.target.files[0] : value
+
+    setProfilePicUpload({
+      updatedValue,
+    })
+  }
+
   useEffect(() => {
-    setUsername(staff?.username)
-    setEmail(staff?.email)
-    setGroup(staff?.groups[0])
-    // console.log('Groups:', Group[0])
-    
+    setUsername(staff?.user.username)
+    setEmail(staff?.user.email)
+    setGroup(staff?.user.groups[0])
+
+    setGroup([
+      [staff?.user.groups[0]],
+    ])
+
+    setFirstName(staff?.first_name)
+    setLastName(staff?.last_name)
+    setPhone(staff?.phone)
+    setPrifilePic(staff?.profile_pic)
+    setJoindedDate(staff?.joined_date)
+
     
   }, [staff])
+  console.log(staff?.user.groups, 'Group')
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -60,31 +87,42 @@ function EditForm({ staff }) {
   //create client
   const UpdateStaff = async (e) => {
     e.preventDefault()
-    
+    console.log(e.target.image.files[0],"img")
     // creating a form data object
     let data = {
       username: Username,
       email: Email,
-      group: Group,
-    //   priority: Priority,
-    //   description: Description,
-    //   assigned_to: User,
-    //   project: Project,
+      groups: Group,
+      first_name: FirstName,
+      last_name: LastName,
+      phone: Phone,
+      joined_date: JoinedDate,
     }
+    
+    console.log(data, 'update data')
     //validating form
     try {
       await Schema.validate(data, { abortEarly: false })
       // The form data is valid, do something with it
-
+      const form = new FormData()
+      // Append each form field to the FormData object
+      Object.entries(data).forEach(([key, value]) => {
+        form.append(key, value)
+      })
+      if (e.target.image.files[0]) {
+        console.log(e.target.image.files[0],"img have");
+        form.append('profile_pic', e.target.image.files[0])
+      }
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/user/${staff.id}/update/`,
+        url: `http://127.0.0.1:8000/api/user/employee/${staff.id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
-          'content-type': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + String(authTokens.access),
         },
-        data: data,
+        data: form,
       }
       //api request for create client
       axios
@@ -92,7 +130,7 @@ function EditForm({ staff }) {
         .then((res) => {
           console.log(res)
           console.log(res.data)
-          navigate('/admin/staff/')
+          // navigate('/admin/staff/')
           handleToast('Staff updated succesfully', 'success')
         })
         .catch((err) => {
@@ -115,63 +153,227 @@ function EditForm({ staff }) {
         UpdateStaff(e)
       }}
     >
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <label
-            htmlFor="fn"
-            className="block text-basse  font-medium text-bgray-600 mb-2"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            value={Username}
-            onChange={(e) => setUsername(e.target.value)}
-            name="title"
-            className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="fn"
-            className="block text-basse  font-medium text-bgray-600 mb-2"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            value={Email}
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-            className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="text"
-            className="block text-basse  font-medium text-bgray-600 mb-2"
-          >
-            User Group
-          </label>
-          <select
-            className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-            name="group"
-          >
-            { groupslist?.map((item) => {
-              return <option value={item.id} selected={Group == item.id}>{item.name}</option>
-            })}
-          </select>
-        </div>
-      </div>
+      <div className="xl:grid grid-cols-12 gap-12 flex 2xl:flex-row flex-col-reverse">
+        <div className="2xl:col-span-8 xl:col-span-7">
+          <div className="grid 2xl:grid-cols-2 grid-cols-1 gap-6">
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                name="first_name"
+                value={FirstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="last_name"
+                value={LastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                Mobile
+              </label>
+              <input
+                type="text"
+                name="phone"
+                value={Phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                Joined Date
+              </label>
+              <input
+                type="date"
+                value={JoinedDate}
+                name="joined_date"
+                onChange={(e) => setJoindedDate(e.target.value)}
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                value={Username}
+                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
 
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          aria-label="none"
-          className="rounded-lg bg-success-300 px-12 py-3.5 transition-all text-white font-semibold hover:bg-success-400"
-        >
-          Save Changes
-        </button>
+            <div>
+              <label
+                htmlFor="fn"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={Email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="text"
+                className="block text-basse  font-medium text-bgray-600 mb-2"
+              >
+                User Group
+              </label>
+              <select
+                onChange={(e) => setGroup([[e.target.value]])}
+                className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+                name="group"
+              >
+                {groupslist?.map((item) => {
+                  return (
+                    <option
+                      value={item.id}
+                      selected={staff?.user.groups[0] == item.id}
+                    >
+                      {item.name}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              aria-label="none"
+              className="rounded-lg bg-success-300 px-12 py-3.5 transition-all text-white font-semibold hover:bg-success-400"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+        <div className="2xl:col-span-4 xl:col-span-5 2xl:mt-24">
+          {/* Image Upload */}
+          <div className={`flex justify-center w-full mx-auto sm:max-w-lg `}>
+            <div className="flex flex-col items-center justify-center w-full h-auto my-20 bg-white sm:w-3/4 sm:rounded-lg sm:shadow-xl">
+              <div className="mt-10 mb-10 text-center">
+                <h2 className="text-2xl font-semibold mb-2">Profile Image</h2>
+                <p className="text-xs text-gray-500">
+                  File should be of format .jpg,png
+                </p>
+              </div>
+              {/* <div
+                className={`relative w-4/5 h-32 max-w-xs mb-10 bg-white bg-gray-100 rounded-lg shadow-inner ${
+                  ActiveImgUpload ? 'block' : 'hidden'
+                }`}
+              >
+                <input
+                  type="file"
+                  id="file-upload"
+                  name="image"
+                  className="hidden"
+                />
+                <label
+                  for="file-upload"
+                  className="z-20 flex flex-col-reverse items-center justify-center w-full h-full cursor-pointer"
+                >
+                  <p className="z-10 text-xs font-light text-center text-gray-500">
+                    Drag & Drop your files here
+                  </p>
+                  <svg
+                    className="z-10 w-8 h-8 text-indigo-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
+                  </svg>
+                </label>
+              </div> */}
+
+              <div
+                class={`bg-white p-5 relative ${
+                  ActiveImgUpload ? 'hidden' : 'block'
+                }`}
+              >
+                <img
+                  className="object-scale-down h-60 w-60 ..."
+                  src={ProfilePic}
+                  alt=""
+                />
+                <input
+                  type="file"
+                  id="file-upload"
+                  name="image"
+                  className=""
+                  onChange={(e) => handleChange(e)}
+                />
+                <button
+                  aria-label="none"
+                  className="absolute right-4 bottom-1"
+                  onClick={() => {
+                    setActiveImgUpload(!ActiveImgUpload)
+                  }}
+                >
+                  <svg
+                    width="29"
+                    height="29"
+                    viewBox="0 0 29 29"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="14.2414"
+                      cy="14.2414"
+                      r="14.2414"
+                      fill="#22C55E"
+                    />
+                    <path
+                      d="M14.6994 10.2363C15.7798 11.3167 16.8434 12.3803 17.9171 13.454C17.7837 13.584 17.6403 13.7174 17.5036 13.8574C15.5497 15.8114 13.5924 17.7653 11.6385 19.7192C11.5118 19.8459 11.3884 19.9726 11.2617 20.0927C11.2317 20.1193 11.185 20.1427 11.145 20.1427C10.1281 20.146 9.11108 20.1427 8.0941 20.146C8.02408 20.146 8.01074 20.1193 8.01074 20.0593C8.01074 19.049 8.01074 18.0354 8.01408 17.0251C8.01408 16.9784 8.03742 16.9217 8.06743 16.8917C9.26779 15.688 10.4682 14.4876 11.6685 13.2873C12.6655 12.2903 13.6591 11.2967 14.6561 10.2997C14.6761 10.2797 14.6861 10.253 14.6994 10.2363Z"
+                      fill="white"
+                    />
+                    <path
+                      d="M18.6467 12.7197C17.573 11.646 16.506 10.579 15.4424 9.51537C15.6324 9.31864 15.8292 9.11858 16.0259 8.91852C16.256 8.68845 16.4894 8.45838 16.7228 8.22831C17.0162 7.93822 17.4197 7.93822 17.7097 8.22831C18.4466 8.9552 19.1802 9.68542 19.9171 10.4123C20.2038 10.6957 20.2138 11.0992 19.9371 11.3859C19.5136 11.8261 19.0868 12.2629 18.6634 12.703C18.66 12.7097 18.65 12.7163 18.6467 12.7197Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   )
