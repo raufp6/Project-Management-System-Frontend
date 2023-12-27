@@ -6,8 +6,8 @@ const AuthProtected = ({ element }) => {
     const authTokens = JSON.parse(localStorage.getItem('authTokens'))
   
   if (!authTokens) {
-    // return <Navigate to="/auth" replace />
-    console.log('logoutt..')
+    return <Navigate to="/auth" replace />
+    // console.log('logoutt..')
   }
   return <>{element}</>
 }

@@ -56,7 +56,7 @@ function AddProject() {
         <section className="mb-6 2xl:mb-0 2xl:flex-1">
           <div className="2xl:col-span-9 col-span-8">
             <div className="rounded-lg bg-white dark:bg-darkblack-600 px-6 py-8">
-              <div className="2xl:flex justify-between gap-12">
+              <div className="1xl:flex justify-between gap-12">
                 {/* Form  */}
                 <AddForm clients={clients} />
               </div>

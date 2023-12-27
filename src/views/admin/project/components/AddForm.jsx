@@ -96,7 +96,7 @@ function AddForm({ clients }) {
   }
   return (
     <form onSubmit={CreateProject}>
-      <div className="grid md:grid-cols-1 gap-6 mb-6">
+      <div className="grid grid-cols-1 gap-6 mb-6 ">
         <div>
           <label
             htmlFor="fn"

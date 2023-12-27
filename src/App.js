@@ -21,7 +21,8 @@ function App() {
           element={<AuthProtected element={<AdminLayout2 />} />}
         ></Route>
 
-        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/" element={<Navigate to="/admin/default/" replace />} />
+        
       </Routes>
     </div>
   )
