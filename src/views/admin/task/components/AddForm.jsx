@@ -8,7 +8,7 @@ import {
   errorNotify,
 } from '../../../../utils/toastUtils'
 import * as yup from 'yup'
-
+import { getStaffList } from '../../../../services/Api'
 //Handle Toast Notifications
 const handleToast = (msg, type = 'default') => {
   if (type == 'success') {
@@ -28,10 +28,10 @@ const Schema = yup.object().shape({
   // client: yup.number().required('Select a client!'),
 })
 function AddForm({ projects,users }) {
-
   const navigate = useNavigate()
-  const { authTokens } = useContext(AuthContext)
+  const { authTokens,logoutUser } = useContext(AuthContext)
   const [members, SetMembers] = useState([])
+  const [usersList, SetUsers] = useState(users)
   //create Task
   const CreateTask = async (e) => {
     e.preventDefault()
@@ -69,7 +69,6 @@ function AddForm({ projects,users }) {
       axios
         .request(options)
         .then((res) => {
-          
           navigate('/admin/task/')
           handleToast('Task created succesfully', 'success')
         })
@@ -93,6 +92,34 @@ function AddForm({ projects,users }) {
       (option) => option.value
     )
     SetMembers(selectedOptions)
+  }
+  //get project details
+  const getProjectAssignedMembers = async (id) => {
+    let response = await fetch(`http://127.0.0.1:8000/api/task/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + String(authTokens.access),
+      },
+    })
+    let data = await response.json()
+    if (response.status === 200) {
+      SetMembers(data)
+    } else if (response.statusText === 'Unauthorized') {
+      return logoutUser()
+    }
+  }
+  const fetchAllStaff = async (id) => {
+    try {
+      const staffData = await getStaffList({ project: id })
+      SetUsers(staffData.results)
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
+  const handleProjectChange = (e) => {
+    // getProjectAssignedMembers(e.target.value)
+    fetchAllStaff(e.target.value)
   }
   return (
     <form onSubmit={CreateTask}>
@@ -179,6 +206,25 @@ function AddForm({ projects,users }) {
             htmlFor="ln"
             className="block text-basse  font-medium text-bgray-600 mb-2"
           >
+            Project
+          </label>
+
+          <select
+            className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+            name="project"
+            onChange={handleProjectChange}
+          >
+            <option value="">Select a project</option>
+            {projects?.map((project, index) => {
+              return <option value={project.id}>{project.name}</option>
+            })}
+          </select>
+        </div>
+        <div>
+          <label
+            htmlFor="ln"
+            className="block text-basse  font-medium text-bgray-600 mb-2"
+          >
             Assign to
           </label>
 
@@ -188,30 +234,12 @@ function AddForm({ projects,users }) {
             multiple
             onChange={handleChange}
           >
-            {users?.map((user, index) => {
+            {usersList?.map((user, index) => {
               return (
                 <option value={user.id}>
                   {user.first_name + ' ' + user.last_name}
                 </option>
               )
-            })}
-          </select>
-        </div>
-        <div>
-          <label
-            htmlFor="ln"
-            className="block text-basse  font-medium text-bgray-600 mb-2"
-          >
-            Project
-          </label>
-
-          <select
-            className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-            name="project"
-          >
-            <option value="">Select a project</option>
-            {projects?.map((project, index) => {
-              return <option value={project.id}>{project.name}</option>
             })}
           </select>
         </div>
