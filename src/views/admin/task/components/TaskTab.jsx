@@ -66,6 +66,7 @@ function TaskTab({ data, pageSize }) {
 
   const [isEditModalActive, setActiveEditModal] = useState(false)
   const [editClientData, setEditClientData] = useState(null)
+  const [showName, setShowName] = useState(false)
   const handleModal = () => {
     setActiveEditModal(!isEditModalActive)
   }
@@ -430,17 +431,33 @@ function TaskTab({ data, pageSize }) {
                       </div>
                     </td>
                     <td className="px-6 py-5 xl:px-0">
-                      <div className="flex w-full items-center space-x-2.5">
-                        <div className="h-10 w-10 overflow-hidden rounded-full">
-                          <img
-                            src={author6}
-                            alt="avatar"
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                        <p className="text-base font-semibold text-bgray-900 dark:text-white">
-                          {task.assigned_to.username}
-                        </p>
+                      <div className="w-full items-center space-x-2.5">
+                        {task?.assigned_to.map((employee, index) => (
+                          <>
+                            <div
+                              className="h-10 w-10 overflow-hidden rounded-full relative"
+                              onMouseEnter={() => setShowName(true)}
+                              onMouseLeave={() => setShowName(false)}
+                            >
+                              <img
+                                src={employee.profile_pic}
+                                alt="avatar"
+                                className="h-full w-full object-cover"
+                              />
+                              {/* <p className="text-base font-semibold text-bgray-900 dark:text-white">
+                                {employee.first_name}
+                              </p> */}
+                              {showName && (
+                                <div className="absolute bottom-0 left-0 right-0 bg-black text-white p-2 text-center">
+                                  {employee.first_name} {employee.last_name}
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-base font-semibold text-bgray-900 dark:text-white">
+                                {employee.first_name}
+                              </p>
+                          </>
+                        ))}
                       </div>
                     </td>
                     <td className="px-6 py-5 xl:px-0">

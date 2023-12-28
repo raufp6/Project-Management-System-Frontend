@@ -31,7 +31,7 @@ function AddForm({ projects,users }) {
 
   const navigate = useNavigate()
   const { authTokens } = useContext(AuthContext)
-
+  const [members, SetMembers] = useState([])
   //create Task
   const CreateTask = async (e) => {
     e.preventDefault()
@@ -48,7 +48,7 @@ function AddForm({ projects,users }) {
       status: e.target.status.value,
       description: e.target.description.value,
       project: e.target.project.value,
-      assigned_to: e.target.assigned_to.value,
+      assigned_to: members,
     }
     //validating form
     try {
@@ -86,6 +86,9 @@ function AddForm({ projects,users }) {
       console.log(errorMessages)
       handleToast(errorMessages[0], 'error')
     }
+  }
+  const handleChange = (e) => {
+    SetMembers((members) => [...members, e.target.value])
   }
   return (
     <form onSubmit={CreateTask}>
@@ -178,10 +181,15 @@ function AddForm({ projects,users }) {
           <select
             className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
             name="assigned_to"
+            multiple
+            onChange={handleChange}
           >
-            <option value="">Select a user</option>
             {users?.map((user, index) => {
-              return <option value={user.id}>{user.username}</option>
+              return (
+                <option value={user.id}>
+                  {user.first_name + ' ' + user.last_name}
+                </option>
+              )
             })}
           </select>
         </div>

@@ -1,6 +1,8 @@
 import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../../context/AuthContext'
+import { Link } from 'react-router-dom'
+import Button from '../../../../components/button'
 import axios from 'axios'
 import {
   DefaultNotify,
@@ -30,6 +32,7 @@ const Schema = yup.object().shape({
 function EditForm({ users, projects,task }) {
   const navigate = useNavigate()
   const { authTokens } = useContext(AuthContext)
+  const [members, SetMembers] = useState([])
 
   const [Title, setTitle] = useState('')
   const [Deadline, setDeadline] = useState('')
@@ -67,6 +70,7 @@ function EditForm({ users, projects,task }) {
       description: Description,
       assigned_to: User,
       project: Project,
+      assigned_to: members,
     }
     //validating form
     try {
@@ -106,6 +110,10 @@ function EditForm({ users, projects,task }) {
       handleToast(errorMessages[0], 'error')
     }
   }
+  const handleChange = (e) => {
+    SetMembers((members) => [...members, e.target.value])
+  }
+  
   return (
     <form
       onSubmit={(e) => {
@@ -197,7 +205,6 @@ function EditForm({ users, projects,task }) {
             name="status"
             onChange={(e) => setStatus(e.target.value)}
           >
-
             <option value="incomplete" selected={Status == 'incomplete'}>
               In complete
             </option>
@@ -245,14 +252,15 @@ function EditForm({ users, projects,task }) {
 
           <select
             className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-            name="project"
-            onChange={(e) => setProject(e.target.value)}
+            name="assigned_to"
+            multiple
+            onChange={handleChange}
+            // value={members}
           >
-            <option value="">Select a user</option>
             {users?.map((user, index) => {
               return (
                 <option value={user.id} selected={User == user.id}>
-                  {user.username}
+                  {user.first_name + ' ' + user.last_name}
                 </option>
               )
             })}
@@ -277,6 +285,9 @@ function EditForm({ users, projects,task }) {
       </div>
 
       <div className="flex justify-end">
+        <Link to="/admin/task/">
+          <Button text="Back" cls="bg-cyan-900" />
+        </Link>
         <button
           type="submit"
           aria-label="none"
