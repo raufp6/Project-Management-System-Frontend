@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '../../../context/AuthContext'
 import ProjectFilter from '../../../components/form/ProjectFilter'
 import { getProjecttList } from '../../../services/Api'
+import { ProjectUrl } from '../../../services/apiUrls'
 import {
   DefaultNotify,
   sucessNotify,
@@ -19,7 +20,21 @@ function Project() {
   const [Status, setStatus] = useState()
   const [Search, setSearch] = useState()
   const [queryParams, setqueryParams] = useState([])
+  const [Page, SetPage] = useState()
+  const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
 
+
+  const fetchAllProjects = async (url) => {
+    try {
+      const projectData = await getProjecttList(queryParams,url)
+      setProjects(projectData.results)
+      setNextPage(projectData.next)
+      setPrevPage(projectData.previous)
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
   
   const handleSearchChange = (event) => {
     console.log('seach start')
@@ -62,16 +77,15 @@ function Project() {
     }
     setqueryParams(filters)
   }
+  const handlePageChange = (page) => {
+    console.log('pagination start')
+    SetPage(page)
+    
+    fetchAllProjects(page)
+  }
   useEffect(() => {
-    const fetchAllProjects = async () => {
-      try {
-        const projectData = await getProjecttList(queryParams)
-        setProjects(projectData.results)
-      } catch (error) {
-        errorNotify(error)
-      }
-    }
-    fetchAllProjects()
+    
+    fetchAllProjects(ProjectUrl)
   }, [queryParams])
 
   return (
@@ -89,6 +103,9 @@ function Project() {
             pageSize={9}
             user={user}
             onhandleSearchChange={handleSearchChange}
+            onPagination={handlePageChange}
+            nextpage={nextPage}
+            prevpage={prevPage}
           />
         </section>
       </div>

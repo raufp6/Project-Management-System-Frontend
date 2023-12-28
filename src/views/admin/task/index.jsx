@@ -41,8 +41,8 @@ function Task() {
       errorNotify(error)
     }
   }
-  console.log("Page",currentPage);
-  console.log("Total page",totalPages);
+  // console.log("Page",currentPage);
+  // console.log("Total page",totalPages);
   const handleSearchChange = (event) => {
     console.log('seach start')
     setSearch(event.target.value)

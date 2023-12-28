@@ -9,6 +9,7 @@ function PaginationV2({ onPagination, nextpage, prevpage, totalpage }) {
         onClick={() => {
           onPagination(prevpage)
         }}
+        disabled={prevpage === null}
       >
         <span>
           <svg
@@ -64,6 +65,7 @@ function PaginationV2({ onPagination, nextpage, prevpage, totalpage }) {
         onClick={() => {
           onPagination(nextpage)
         }}
+        disabled={nextpage === null}
       >
         <span>
           <svg

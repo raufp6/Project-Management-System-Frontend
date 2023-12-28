@@ -6,7 +6,15 @@ import Search from '../../../../components/form/Search'
 import StaffTab from './StaffTab'
 import TabHeader from '../../../../components/listTab/TabHeader'
 
-function ListTab({ data, pageSize, onhandleSearchChange }) {
+function ListTab({
+  data,
+  pageSize,
+  onhandleSearchChange,
+  onPagination,
+  nextpage,
+  prevpage,
+  totalpage,
+}) {
   return (
     <div className="w-full rounded-lg bg-white px-[24px] py-[20px] ">
       <TabHeader />
@@ -18,7 +26,12 @@ function ListTab({ data, pageSize, onhandleSearchChange }) {
         {/* <FilterFull /> */}
 
         <StaffTab data={data} pageSize={pageSize} />
-        <Pagination />
+        <Pagination
+          onPagination={onPagination}
+          nextpage={nextpage}
+          prevpage={prevpage}
+          totalpage={totalpage}
+        />
       </div>
     </div>
   )

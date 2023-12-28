@@ -8,7 +8,15 @@ import TabHeader from './TabHeader'
 import UserFilter from '../form/ProjectFilter'
 import { isAdmin } from '../../utils/Permission'
 
-function ProjectTab({ data, pageSize, user, onhandleSearchChange }) {
+function ProjectTab({
+  data,
+  pageSize,
+  user,
+  onhandleSearchChange,
+  onPagination,
+  nextpage,
+  prevpage,
+}) {
   return (
     <div className="w-full rounded-lg bg-white px-[24px] py-[20px]">
       {isAdmin(user.groups[0]) && <TabHeader />}
@@ -20,7 +28,11 @@ function ProjectTab({ data, pageSize, user, onhandleSearchChange }) {
         {/* <FilterFull /> */}
 
         <ProjectListTab data={data} pageSize={pageSize} />
-        <Pagination />
+        <Pagination
+          onPagination={onPagination}
+          nextpage={nextpage}
+          prevpage={prevpage}
+        />
       </div>
     </div>
   )

@@ -45,15 +45,15 @@ export const getTaskCount = async (params = null) => {
     console.error('Error:', errors.code)
   }
 }
-export const getProjecttList = async (params) =>{
-    try {
-      const response = await api_request.get(ProjectUrl, { params })
-      return response.data
-    } catch (errors) {
-      const errorMessages = errors.inner.map((error) => error.message)
-      errorNotify(errorMessages.join('\n'))
-      console.error('Error:', errors.code)
-    }
+export const getProjecttList = async (params, url = TaskUrl) => {
+  try {
+    const response = await api_request.get(url, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
+  }
 }
 export const getNotFinishedProjecttList = async (params) => {
   try {
@@ -107,9 +107,9 @@ export const getClientList = async (params=null) => {
   }
 }
 // Staff
-export const getStaffList = async (params) => {
+export const getStaffList = async (params,url=StafftUrl) => {
   try {
-    const response = await api_request.get(StafftUrl, { params })
+    const response = await api_request.get(url, { params })
     return response.data
   } catch (error) {
     if (error.response) {

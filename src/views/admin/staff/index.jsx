@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from 'react'
 import AuthContext from '../../../context/AuthContext'
 import { getStaffList } from '../../../services/Api'
 import { errorNotify } from '../../../utils/toastUtils'
+import { StafftUrl } from '../../../services/apiUrls'
 
 function Staff() {
   var filters = {}
@@ -11,7 +12,22 @@ function Staff() {
   const [users, setUsers] = useState()
   const [Search, setSearch] = useState()
   const [queryParams, setqueryParams] = useState([])
+  const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
+  const [Page, SetPage] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
+  const fetchAllStaffs = async (url) => {
+    try {
+      const staffData = await getStaffList(queryParams,url)
+      setUsers(staffData.results)
+      setNextPage(staffData.next)
+      setPrevPage(staffData.previous)
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
     filters = {
@@ -19,16 +35,14 @@ function Staff() {
     }
     setqueryParams(filters)
   }
-  
+  const handlePageChange = (page) => {
+    console.log('pagination start')
+    SetPage(page)
+    
+    fetchAllStaffs(page)
+  }
   useEffect(() => {
-    const fetchAllStaffs = async () => {
-      try {
-        const staffData = await getStaffList({ usertype: 'emp' })
-        setUsers(staffData.results)
-      } catch (error) {
-        errorNotify(error)
-      }
-    }
+    
     fetchAllStaffs()
   }, [queryParams])
   return (
@@ -40,6 +54,10 @@ function Staff() {
             data={users}
             pageSize={9}
             onhandleSearchChange={handleSearchChange}
+            onPagination={handlePageChange}
+            nextpage={nextPage}
+            prevpage={prevPage}
+            totalpage={totalPages}
           />
         </section>
       </div>

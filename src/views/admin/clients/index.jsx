@@ -4,6 +4,7 @@ import { useState,useContext,useEffect } from 'react'
 import AuthContext from '../../../context/AuthContext'
 import { getClientList } from '../../../services/Api'
 import { errorNotify } from '../../../utils/toastUtils'
+import { ClienttUrl } from '../../../services/apiUrls'
 
 function Clients() {
   var filters = {}
@@ -11,7 +12,22 @@ function Clients() {
   const [clients,setClients] = useState()
   const [Search, setSearch] = useState()
   const [queryParams, setqueryParams] = useState([])
+  const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
+  const [Page, SetPage] = useState()
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const [totalPages, setTotalPages] = useState(1)
 
+  const fetchAllClients = async (url) => {
+    try {
+      const clientData = await getClientList(queryParams,url)
+      setClients(clientData)
+      setNextPage(clientData.next)
+      setPrevPage(clientData.previous)
+    } catch (error) {
+      errorNotify(error)
+    }
+  }
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
     filters = {
@@ -21,14 +37,7 @@ function Clients() {
   }
   
   useEffect(() => {
-    const fetchAllClients = async () => {
-      try {
-        const clientData = await getClientList(queryParams)
-        setClients(clientData)
-      } catch (error) {
-        errorNotify(error)
-      }
-    }
+    
     fetchAllClients()
   }, [queryParams])
   return (
