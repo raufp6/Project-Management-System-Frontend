@@ -13,6 +13,10 @@ import {
   errorNotify,
 } from '../../utils/toastUtils'
 import { isAdmin } from '../../utils/Permission'
+import groupImg1 from '../../assets/images/avatar/group-img-1.png'
+import groupImg2 from '../../assets/images/avatar/group-img-2.png'
+import groupImg3 from '../../assets/images/avatar/group-img.png'
+
 //Handle Toast Notifications
 const handleToast = (msg, type = 'default') => {
   if (type == 'success') {
@@ -58,6 +62,7 @@ function ProjectInfoRow({
   status,
   priority,
   deadline,
+  members,
 }) {
   const [isEditModalActive, setActiveEditModal] = useState(false)
   const [editClientData, setEditClientData] = useState(null)
@@ -65,7 +70,6 @@ function ProjectInfoRow({
   // const status_list = {
   //   notstarted: 'NOT STARTED',
   // }
-
 
   const handleModal = () => {
     setActiveEditModal(!isEditModalActive)
@@ -120,6 +124,7 @@ function ProjectInfoRow({
       ],
     })
   }
+  console.log(members,"members");
 
   return (
     <>
@@ -153,7 +158,21 @@ function ProjectInfoRow({
             {deadline}
           </p>
         </td>
-
+        <td className="px-6 py-5 xl:px-0">
+          <div className="mt-4 flex -space-x-2 overflow-hidden">
+            {members?.map((project, index) =>
+            <img
+              className="inline-block h-8 w-8 rounded-full ring ring-white"
+              src={groupImg1}
+              alt=""
+            />
+            )}
+            
+            {/* <div className="inline-flex justify-center h-8 w-8 rounded-full items-center text-gray-500 text-xs font-semibold bg-white">
+              +5
+            </div> */}
+          </div>
+        </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
           <span
             className={`text-sm ${status_list[status]?.color} font-medium rounded-lg py-1 px-3`}

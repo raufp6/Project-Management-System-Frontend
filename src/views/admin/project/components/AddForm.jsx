@@ -8,6 +8,11 @@ import {
   errorNotify,
 } from '../../../../utils/toastUtils'
 import * as yup from 'yup'
+import Select from 'react-tailwindcss-select'
+import {getStaffList} from '../../../../services/Api'
+
+
+
 
 //Handle Toast Notifications
 const handleToast = (msg, type = 'default') => {
@@ -26,9 +31,11 @@ const ProjectSchema = yup.object().shape({
   // client: yup.number().required('Select a client!'),
 })
 function AddForm({ clients }) {
-  console.log(clients);
+  
+  const [users, setUsers] = useState()
   const navigate = useNavigate()
   const { authTokens } = useContext(AuthContext)
+  const [members,SetMembers] = useState([])
 
   //create client
   const CreateProject = async (e) => {
@@ -45,6 +52,7 @@ function AddForm({ clients }) {
       status: e.target.status.value,
       description: e.target.description.value,
       client: e.target.client.value,
+      members: members,
     }
     //validating form
     try {
@@ -86,14 +94,30 @@ function AddForm({ clients }) {
         errorNotify(errorMessages[index])
       }
     }
-    // useEffect(()=>{
-    //   try {
-        
-    //   } catch (error) {
-        
-    //   }
-    // },[])
   }
+  const handleChange = (e) => {
+    SetMembers((members) => [...members, e.target.value])
+  }
+  useEffect(() => {
+    const fetchAllStaffs = async () => {
+      try {
+        const staffData = await getStaffList({ usertype: 'emp' })
+        setUsers(staffData.results)
+      } catch (error) {
+        errorNotify(error)
+      }
+    }
+    fetchAllStaffs()
+  }, [])
+  const options = []
+
+  
+ users?.forEach((employee) => {
+  
+   options.push({ value: employee.id, label: employee.first_name+" "+employee.last_name })
+ })
+ 
+  
   return (
     <form onSubmit={CreateProject}>
       <div className="grid grid-cols-1 gap-6 mb-6 ">
@@ -172,6 +196,39 @@ function AddForm({ clients }) {
             <option value="">Select a client</option>
             {clients?.map((client, index) => {
               return <option value={client.id}>{client.company_name}</option>
+            })}
+          </select>
+        </div>
+        {/* <div>
+          <label
+            htmlFor="ln"
+            className="block text-basse  font-medium text-bgray-600 mb-2"
+          >
+            Members
+          </label>
+          <Select
+            
+            onChange={handleChange}
+            options={options}
+            isMultiple={true}
+          />
+        </div> */}
+        <div>
+          <label
+            htmlFor="ln"
+            className="block text-basse  font-medium text-bgray-600 mb-2"
+          >
+            Members
+          </label>
+
+          <select
+            className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+            name="members"
+            multiple
+            onChange={handleChange}
+          >
+            {users?.map((emplyee, index) => {
+              return <option value={emplyee.id}>{emplyee.first_name+" "+emplyee.last_name}</option>
             })}
           </select>
         </div>

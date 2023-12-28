@@ -8,6 +8,8 @@ import {
   errorNotify,
 } from '../../../../utils/toastUtils'
 import * as yup from 'yup'
+import Select from 'react-tailwindcss-select'
+import { getStaffList } from '../../../../services/Api'
 
 //Handle Toast Notifications
 const handleToast = (msg, type = 'default') => {
@@ -30,8 +32,9 @@ const ProjectSchema = yup.object().shape({
 function AddForm({ clients,project }) {
     
   const navigate = useNavigate()
+  const [users, setUsers] = useState()
   const { authTokens } = useContext(AuthContext)
-
+  const [members, SetMembers] = useState([])
   const [Name, setName] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [StartDate, setStartDate] = useState('')
@@ -63,6 +66,7 @@ function AddForm({ clients,project }) {
       description: e.target.description.value,
       client: e.target.client.value,
       status: e.target.status.value,
+      members: members,
     }
     //validating form
     try {
@@ -103,6 +107,30 @@ function AddForm({ clients,project }) {
       handleToast(errorMessages[0], 'error')
     }
   }
+  const handleChange = (e) => {
+    SetMembers((members) => [...members, e.target.value])
+    
+  }
+  useEffect(() => {
+    const fetchAllStaffs = async () => {
+      try {
+        const staffData = await getStaffList({ usertype: 'emp' })
+        setUsers(staffData.results)
+      } catch (error) {
+        errorNotify(error)
+      }
+    }
+    fetchAllStaffs()
+  }, [])
+  const options = []
+
+  users?.forEach((employee) => {
+    options.push({
+      value: employee.id,
+      label: employee.first_name + ' ' + employee.last_name,
+    })
+  })
+
   return (
     <form onSubmit={UpdateProject}>
       <div className="grid md:grid-cols-1 gap-6 mb-6">
@@ -207,7 +235,28 @@ function AddForm({ clients,project }) {
             })}
           </select>
         </div>
+        <div>
+          <label
+            htmlFor="ln"
+            className="block text-basse  font-medium text-bgray-600 mb-2"
+          >
+            Members
+          </label>
+
+          <select
+            className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+            name="members"
+            multiple
+            onChange={handleChange}
+            value={project?.members}
+          >
+            {users?.map((employee, index) => {
+              return <option value={employee.id}>{employee.first_name}</option>
+            })}
+          </select>
+        </div>
       </div>
+
       <div className="grid md:grid-cols-1 gap-6 mb-6">
         <div>
           <label
