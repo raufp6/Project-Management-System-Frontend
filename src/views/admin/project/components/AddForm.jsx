@@ -95,8 +95,14 @@ function AddForm({ clients }) {
       }
     }
   }
+  
   const handleChange = (e) => {
-    SetMembers((members) => [...members, e.target.value])
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    )
+    SetMembers(selectedOptions)
+    // console.log(selectedOptions, 'value')
   }
   useEffect(() => {
     const fetchAllStaffs = async () => {

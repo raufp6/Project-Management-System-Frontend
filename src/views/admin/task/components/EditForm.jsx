@@ -111,7 +111,11 @@ function EditForm({ users, projects,task }) {
     }
   }
   const handleChange = (e) => {
-    SetMembers((members) => [...members, e.target.value])
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    )
+    SetMembers(selectedOptions)
   }
   
   return (

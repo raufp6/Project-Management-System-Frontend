@@ -67,6 +67,17 @@ function TaskInfo({ task }) {
         <div className="ml-10">
           <h4 className="font-semibold text-bgray-900 dark:text-white text-base">
             {task.assigned_to?.username}
+            {task.assigned_to?.map((employee,index)=>{
+              return (
+                <span>
+                  
+                  {employee.first_name + ' ' + employee.last_name}
+                  {index < task.assigned_to.length - 1?', ':null}
+                </span>
+              )
+            })}
+            
+            
           </h4>
         </div>
       </div>

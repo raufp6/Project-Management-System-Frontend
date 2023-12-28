@@ -68,6 +68,7 @@ function AddForm({ clients,project }) {
       status: e.target.status.value,
       members: members,
     }
+    // console.log(e.target.members.value)
     //validating form
     try {
       await ProjectSchema.validate(data, { abortEarly: false })
@@ -90,7 +91,7 @@ function AddForm({ clients,project }) {
         .then((res) => {
           console.log(res)
           console.log(res.data)
-          navigate('/admin/project/')
+          // navigate('/admin/project/')
           handleToast('Project updated succesfully', 'success')
         })
         .catch((err) => {
@@ -108,9 +109,15 @@ function AddForm({ clients,project }) {
     }
   }
   const handleChange = (e) => {
-    SetMembers((members) => [...members, e.target.value])
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    )
+    SetMembers(selectedOptions)
+    // console.log(selectedOptions, 'value')
     
   }
+  // console.log(members,"members");
   useEffect(() => {
     const fetchAllStaffs = async () => {
       try {
@@ -245,10 +252,10 @@ function AddForm({ clients,project }) {
 
           <select
             className="bg-bgray-50  p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
-            name="members"
+            name="members[]"
             multiple
             onChange={handleChange}
-            value={project?.members}
+            // value={project?.members}
           >
             {users?.map((employee, index) => {
               return <option value={employee.id}>{employee.first_name}</option>

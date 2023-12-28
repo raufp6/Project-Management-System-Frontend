@@ -12,6 +12,7 @@ import {
   errorNotify,
 } from '../../../utils/toastUtils'
 import * as yup from 'yup'
+import TaskViewHeader from './components/TaskViewHeader'
 
 //Handle Toast Notifications
 const handleToast = (msg, type = 'default') => {
@@ -34,6 +35,7 @@ function EditProject() {
   const { authTokens, logoutUser } = useContext(AuthContext)
 
   const [task, setTask] = useState()
+  
   const { id } = useParams()
 
   const [projects, setProjects] = useState()
@@ -77,6 +79,7 @@ function EditProject() {
       return logoutUser()
     }
   }
+  
 
   useEffect(() => {
     getTask()
@@ -87,10 +90,11 @@ function EditProject() {
       <div className="2xl:flex 2xl:space-x-[48px]">
         <section className="mb-6 2xl:mb-0 2xl:flex-1">
           <div className="2xl:col-span-9 col-span-8">
+            <TaskViewHeader />
             <div className="rounded-lg bg-white  px-6 py-8">
               <div className="2xl:flex justify-between gap-12">
                 {/* Form  */}
-                <EditForm users={users} projects={projects} task={task}/>
+                <EditForm users={users} projects={projects} task={task} />
               </div>
             </div>
           </div>

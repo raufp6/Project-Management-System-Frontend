@@ -7,6 +7,7 @@ export const ForgotPasswordUrl = 'auth/forgot-password'
 //Task 
 export const TaskUrl = 'task'
 export const TaskCountUrl = 'task/count/'
+export const TaskFilesUrl = 'task/files/'
 
 //Project
 export const ProjectUrl = 'project'

@@ -88,7 +88,11 @@ function AddForm({ projects,users }) {
     }
   }
   const handleChange = (e) => {
-    SetMembers((members) => [...members, e.target.value])
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    )
+    SetMembers(selectedOptions)
   }
   return (
     <form onSubmit={CreateTask}>
