@@ -15,6 +15,7 @@ import AddTask from './views/admin/task/AddTask'
 import EditTask from './views/admin/task/EditTask'
 import TaskView from './views/admin/task/TaskView'
 import TaskResources from './views/admin/task/components/Resources'
+import ProjectView from './views/admin/project/ProjectView'
 // import Profile from 'views/admin/profile'
 // import DataTables from 'views/admin/tables'
 // import RTLDefault from 'views/rtl/default'
@@ -79,6 +80,14 @@ const routes = [
     path: 'project/edit/:id',
     icon: <HiOutlineBriefcase className="h-6 w-6" />,
     component: <EditProject />,
+    secondary: true,
+  },
+  {
+    name: 'View Project',
+    layout: '/admin',
+    path: 'project/view/:id',
+    icon: <HiOutlineBriefcase className="h-6 w-6" />,
+    component: <ProjectView />,
     secondary: true,
   },
   {

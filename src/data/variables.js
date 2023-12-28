@@ -15,6 +15,10 @@ status['completed'] = {
   title: 'Completed',
   color: 'text-success-300 bg-success-50',
 }
+status['notstarted'] = {
+  title: 'Not Started',
+  color: 'text-bamber-500 bg-bamber-50',
+}
 
 var priority_data = []
 priority_data['medium'] = {

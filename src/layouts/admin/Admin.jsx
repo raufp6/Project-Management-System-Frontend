@@ -32,9 +32,9 @@ function Admin() {
   const setSideBar = (user)=>{
     if(isClient(user.groups[0])){
       return <SidebarClient handleActive={() => setSidebar(!sidebar)} />
-    }else if(isDeveloper(user.group)){
-        return <SidebarEmplyee handleActive={() => setSidebar(!sidebar)} />
-    }else{
+    }else if (isDeveloper(user.groups[0])) {
+      return <SidebarEmplyee handleActive={() => setSidebar(!sidebar)} />
+    } else {
       return <Sidebar handleActive={() => setSidebar(!sidebar)} />
     }
   }
