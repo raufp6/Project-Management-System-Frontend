@@ -1,6 +1,92 @@
-import React from 'react'
+import React,{useState,useEffect,useContext} from 'react'
+import { useParams } from 'react-router-dom'
+import AuthContext from '../../../../context/AuthContext'
+import axios from 'axios'
+import { DefaultNotify,sucessNotify,errorNotify } from '../../../../utils/toastUtils'
+import { useNavigate } from 'react-router-dom'
 
-export default function FileUploadModal({ onclickhandle,modelstatus }) {
+//Handle Toast Notifications
+const handleToast = (msg, type = 'default') => {
+  if (type == 'success') {
+    sucessNotify(msg)
+  } else if (type == 'error') {
+    errorNotify(msg)
+  } else {
+    DefaultNotify(msg)
+  }
+}
+
+export default function FileUploadModal({ onclickhandle, modelstatus, onFileUpload }) {
+  const navigate = useNavigate()
+  const [file, setFile] = useState(null)
+  const [file_name, setFileName] = useState(null)
+
+  const { authTokens, logoutUser } = useContext(AuthContext)
+  const { id } = useParams()
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0])
+  }
+  const handleUpload_ = async () => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('file_name', file_name)
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/task/file/${id}/upload/`,
+        {
+          method: 'POST',
+          body: formData,
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + String(authTokens.access),
+        }
+      )
+
+      if (response.ok) {
+        const data = await response.json()
+        onFileUpload(data) // Update the file list or perform any other action
+      } else {
+        console.error('File upload failed:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error during file upload:', error)
+    }
+  }
+    const handleUpload = async () => {
+      try {
+        // await ClientSchema.validate(data, { abortEarly: false })
+
+        const formData = new FormData()
+        formData.append('file', file)
+        const options = {
+          method: 'POST',
+          url: `http://127.0.0.1:8000/api/task/file/${id}/upload/`,
+          params: { 'api-version': '3.0' },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Bearer ' + String(authTokens.access),
+          },
+          data: formData,
+        }
+        //api request for create client
+        axios
+          .request(options)
+          .then((res) => {
+            // navigate('/admin/staff')
+            handleToast('File uploaded succesfully', 'success')
+          })
+          .catch((err) => {
+            var errors = err.response.data
+            Object.keys(errors).forEach((key) => {
+              handleToast(key.toUpperCase() + ' : ' + errors[key][0], 'error')
+            })
+          })
+      } catch (errors) {
+        // There are errors in the form data
+        const errorMessages = errors.inner.map((error) => error.message)
+        handleToast(errorMessages.join('\n'), 'error')
+      }
+    }
   return (
     <>
       {modelstatus ? (
@@ -23,14 +109,30 @@ export default function FileUploadModal({ onclickhandle,modelstatus }) {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 ">
+                  <div>
+                    <label
+                      htmlFor="fn"
+                      className="block text-basse  font-medium text-bgray-600 mb-2"
+                    >
+                      File Name
+                    </label>
+                    <input
+                      type="text"
+                      name="file_name"
+                      onChange={(e)=>{
+                        setFileName(e.target.value)
+                      }}
+                      className="bg-bgray-50   p-4 rounded-lg border-0 focus:border focus:border-success-300 focus:ring-0 w-full"
+                    />
+                  </div>
                   <div className="flex flex-col items-center justify-center w-full h-auto my-20 bg-white sm:w-3/4 sm:rounded-lg sm:shadow-xl">
-                    
                     <div className="relative w-4/5 h-32 max-w-xs mb-10 bg-white bg-gray-100 rounded-lg shadow-inner">
                       <input
                         type="file"
                         id="file-upload"
                         name="image"
                         className="hidden"
+                        onChange={handleFileChange}
                       />
                       <label
                         for="file-upload"
@@ -63,7 +165,7 @@ export default function FileUploadModal({ onclickhandle,modelstatus }) {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => onclickhandle(false)}
+                    onClick={handleUpload}
                   >
                     Upload
                   </button>

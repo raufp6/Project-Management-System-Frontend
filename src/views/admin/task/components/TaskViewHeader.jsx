@@ -23,7 +23,7 @@ function TaskViewHeader() {
               strokeLinejoin="round"
             />
           </svg>
-          <span> Back to Tasks</span>
+          <span> Back to Task</span>
         </button>
       </div>
       <div className="flex gap-x-4">
@@ -64,49 +64,6 @@ function TaskViewHeader() {
             <span>Files</span>
           </button>
         </Link>
-        <button
-          aria-label="none"
-          className="rounded-lg bg-white dark:bg-darkblack-600 dark:text-white gap-x-2 p-4 inline-flex items-center justify-center text-base text-bgray-600 border border-transparent hover:border-success-300 transition duration-300 ease-in-out"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 2L2 11L11 19.5V14C18 14 21 21.5 21 21.5C21 13 18.5 7.5 11 7.5V2Z"
-              stroke="#A0AEC0"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-
-          <span>Refund amount</span>
-        </button>
-        <button
-          aria-label="none"
-          className="rounded-lg bg-white dark:bg-darkblack-600 dark:text-white p-4 gap-x-2 inline-flex items-center justify-center text-base text-bgray-600 border border-transparent hover:border-success-300 transition duration-300 ease-in-out"
-        >
-          <span>More actions</span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 6L8 10L12 6"
-              stroke="#A0AEC0"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
       </div>
     </header>
   )
