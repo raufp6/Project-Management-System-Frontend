@@ -45,7 +45,7 @@ export const getTaskCount = async (params = null) => {
     console.error('Error:', errors.code)
   }
 }
-export const getProjecttList = async (params, url = TaskUrl) => {
+export const getProjecttList = async (params, url = ProjectUrl) => {
   try {
     const response = await api_request.get(url, { params })
     return response.data

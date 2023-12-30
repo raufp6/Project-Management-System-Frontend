@@ -99,7 +99,7 @@ function HeaderOne({ handleSidebar }) {
                 />
               </ToggleBtn>
 
-              <ToggleBtn
+              {/* <ToggleBtn
                 active={true}
                 name="massage"
                 clickHandler={handlePopup}
@@ -124,7 +124,7 @@ function HeaderOne({ handleSidebar }) {
                   active={popup?.massage}
                   handlePopup={handlePopup}
                 />
-              </ToggleBtn>
+              </ToggleBtn> */}
             </div>
             <div className="hidden h-[48px] w-[1px] bg-bgray-300  xl:block"></div>
             {/* author */}

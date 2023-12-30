@@ -47,8 +47,8 @@ function AddTask() {
     }
     const fetchAllProjects = async () => {
       try {
-        const staffData = await getProjecttList({ usertype: 'emp' })
-        setProjects(staffData.results)
+        const ProjectData = await getProjecttList()
+        setProjects(ProjectData.results)
       } catch (error) {
         errorNotify(error)
       }
