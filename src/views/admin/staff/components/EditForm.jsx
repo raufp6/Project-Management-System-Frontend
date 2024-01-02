@@ -42,7 +42,6 @@ function EditForm({ staff }) {
   const [groupslist, setGroups] = useState([])
 
   const handleChange = (e) => {
-    console.log("sd");
     const { name, value, type } = e.target
 
     // If the input is a file input, update the state with the selected file
@@ -294,7 +293,7 @@ function EditForm({ staff }) {
                   File should be of format .jpg,png
                 </p>
               </div>
-              {/* <div
+              <div
                 className={`relative w-4/5 h-32 max-w-xs mb-10 bg-white bg-gray-100 rounded-lg shadow-inner ${
                   ActiveImgUpload ? 'block' : 'hidden'
                 }`}
@@ -321,7 +320,7 @@ function EditForm({ staff }) {
                     <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path>
                   </svg>
                 </label>
-              </div> */}
+              </div> 
 
               <div
                 class={`bg-white p-5 relative ${
@@ -343,7 +342,8 @@ function EditForm({ staff }) {
                 <button
                   aria-label="none"
                   className="absolute right-4 bottom-1"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault()
                     setActiveImgUpload(!ActiveImgUpload)
                   }}
                 >

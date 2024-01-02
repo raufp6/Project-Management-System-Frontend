@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React, { useContext } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Sidebar from '../../components/sidebar'
 import SidebarEmplyee from '../../components/sidebar/SidebarEmplyee'
@@ -7,17 +7,31 @@ import SidebarV2 from '../../components/sidebar/SidebarV2'
 import Overlay from '../../components/overlay'
 import Navbar from '../../components/navbar'
 import HeaderOne from '../../components/header/HeaderOne'
-import Dashboard from "../../views/admin/default"
-import { isAdmin,isClient,isDeveloper } from '../../utils/Permission.jsx'
+import Dashboard from '../../views/admin/default'
+import { isAdmin, isClient, isDeveloper } from '../../utils/Permission.jsx'
 import routes from '../../routes.js'
 import AuthContext from '../../context/AuthContext'
 
 function Admin() {
-  const {user} = useContext(AuthContext)
-  const overlay = false;
-  const getRoutes = (routes) => {
+  const { user } = useContext(AuthContext)
+  const overlay = false
+  const getRoutes1 = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === '/admin') {
+        return <Route path={prop.path} element={prop.component} />
+      }
+    })
+  }
+  const getRoutes = (routes) => {
+    return routes.map((prop, key) => {
+      if (prop.children) {
+        const ChildRoutes = getRoutes(prop.children)
+        return (
+          <Route path={prop.path} element={prop.component}>
+            {ChildRoutes}
+          </Route>
+        )
+      } else {
         return <Route path={prop.path} element={prop.component} />
       }
     })
@@ -29,10 +43,10 @@ function Admin() {
   //     ? localStorage.getItem('theme')
   //     : ''
   // )
-  const setSideBar = (user)=>{
-    if(isClient(user.groups[0])){
+  const setSideBar = (user) => {
+    if (isClient(user.groups[0])) {
       return <SidebarClient handleActive={() => setSidebar(!sidebar)} />
-    }else if (isDeveloper(user.groups[0])) {
+    } else if (isDeveloper(user.groups[0])) {
       return <SidebarEmplyee handleActive={() => setSidebar(!sidebar)} />
     } else {
       return <Sidebar handleActive={() => setSidebar(!sidebar)} />

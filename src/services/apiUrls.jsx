@@ -17,6 +17,9 @@ export const CreateProjectUrl = 'project/create/'
 // Client
 export const ClienttUrl = 'clients'
 
+
+//User
+export const UsertUrl = 'user/'
 //Staff
 export const StafftUrl = 'user/employee/'
 export const UserCountUrl = 'user/count/'

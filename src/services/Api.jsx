@@ -11,6 +11,7 @@ import {
   TaskCountUrl,
   NotificationsUrl,
   UserGroupUrl,
+  UsertUrl
 } from '../services/apiUrls'
 
 export const getGroups = async (params = null) => {
@@ -126,6 +127,16 @@ export const getStaffList = async (params,url=StafftUrl) => {
       errorNotify('An error occurred while setting up the request')
       console.error('Request Setup Error:', error.message)
     }
+  }
+}
+export const getUser = async (params = null, url = UsertUrl) => {
+  try {
+    const response = await api_request.get(url, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
   }
 }
 export const getUserCount = async (params = null) => {

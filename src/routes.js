@@ -16,6 +16,9 @@ import EditTask from './views/admin/task/EditTask'
 import TaskView from './views/admin/task/TaskView'
 import TaskResources from './views/admin/task/components/Resources'
 import ProjectView from './views/admin/project/ProjectView'
+import Settings from './views/admin/settings'
+import PersonalInfo from './views/admin/settings/personal-info'
+import PasswordReset from './views/admin/settings/password-rest'
 // import Profile from 'views/admin/profile'
 // import DataTables from 'views/admin/tables'
 // import RTLDefault from 'views/rtl/default'
@@ -153,6 +156,45 @@ const routes = [
     icon: <HiOutlineBriefcase className="h-6 w-6" />,
     component: <TaskView />,
     secondary: true,
+  },
+  {
+    name: 'Settings',
+    layout: '/admin',
+    path: 'settings',
+    icon: <HiOutlineBriefcase className="h-6 w-6" />,
+    component: <Settings />,
+    secondary: true,
+    children: [
+      {
+        index: true,
+        path: '',
+        component: <PersonalInfo />,
+      },
+      {
+        path: 'password-reset',
+        component: <PasswordReset />,
+      },
+      // {
+      //   path: 'program&resources',
+      //   element: <ProgramAndResources />,
+      // },
+      // {
+      //   path: 'payment',
+      //   element: <Payment />,
+      // },
+      // {
+      //   path: 'faq',
+      //   element: <Faq />,
+      // },
+      // {
+      //   path: 'security',
+      //   element: <Security />,
+      // },
+      // {
+      //   path: 'terms&conditions',
+      //   element: <TermsAndCondition />,
+      // },
+    ],
   },
 ]
 export default routes
