@@ -16,7 +16,7 @@ const notifications_area = (notifications)=>{
   {
     return notifications.map((prop, key) => (
         
-          <li className="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100  ">
+          <li key={key} className="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100  ">
           <Link to="#">
             <div className="noti-item">
               <p className="mb-1 text-sm font-medium text-bgray-600 ">

@@ -18,12 +18,11 @@ function TabHeader() {
   return (
     <>
       <AddClientModal isActive={newWallet} handleClose={setNewWallet} />
-      <div class="flex justify-end bg-gray-200 mb-8">
+      <div className="flex justify-end bg-gray-200 mb-8">
         <div className="px-4 py-2 m-2">
           <Link to="add/">
             <Button text="Add" cls="bg-success-400" />
           </Link>
-          
         </div>
       </div>
     </>

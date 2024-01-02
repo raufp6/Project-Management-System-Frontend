@@ -242,7 +242,7 @@ function StaffTab({ data, pageSize }) {
           {data?.map((user, index) =>
             pageSize
               ? index + 1 <= pageSize && (
-                  <tr className="border-b border-bgray-300 dark:border-darkblack-400">
+                  <tr key={index} className="border-b border-bgray-300 dark:border-darkblack-400">
                     <td className="">
                       <label className="text-center">
                         <input

@@ -81,22 +81,40 @@ function DashboardCount() {
     fetchDoingTaskCount()
     fetchInCompleteTaskCount()
   }, [])
-  console.log(project_count)
+  console.log(project_count,"count")
   return (
     <div className="mb-[24px] w-full">
       <div className="grid grid-cols-1 gap-[24px] lg:grid-cols-3">
-        <TaskCompleted title="Total Project" count={project_count?.count} />
-        {isAdmin(user.groups[0]) && (
-          <TaskCompleted title="Total Staff" count={user_count?.count} />
-        )}
-        <TaskCompleted title="Total Task" count={task_count?.count} />
         <TaskCompleted
+          
+          title="Total Project"
+          count={project_count?.count}
+        />
+        {isAdmin(user.groups[0]) && (
+          <TaskCompleted
+            
+            title="Total Staff"
+            count={user_count?.count}
+          />
+        )}
+        <TaskCompleted key="3" title="Total Task" count={task_count?.count} />
+        <TaskCompleted
+          
           title="Completed Task"
           count={completed_task_count?.count}
         />
-        <TaskCompleted title="To Do Task" count={totdo_task_count?.count} />
-        <TaskCompleted title="Doing Task" count={doing_task_count?.count} />
         <TaskCompleted
+
+          title="To Do Task"
+          count={totdo_task_count?.count}
+        />
+        <TaskCompleted
+          
+          title="Doing Task"
+          count={doing_task_count?.count}
+        />
+        <TaskCompleted
+          
           title="Incomplete Task"
           count={incomplete_task_count?.count}
         />

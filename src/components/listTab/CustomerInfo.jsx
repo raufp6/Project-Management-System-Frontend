@@ -5,8 +5,8 @@ import AuthContext from '../../context/AuthContext'
 import ProtoTypes from 'prop-types'
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa'
 import AddClientModal from '../modal/AddClientModal'
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { confirmAlert } from 'react-confirm-alert' // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import {
   DefaultNotify,
   sucessNotify,
@@ -22,17 +22,16 @@ const handleToast = (msg, type = 'default') => {
     DefaultNotify(msg)
   }
 }
-function CustomerInfo({ img, name, email, phone, id ,user}) {
+function CustomerInfo({ img, name, email, phone, id, user }) {
   const { authTokens, logoutUser } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const [isEditModalActive, setActiveEditModal] = useState(false)
-  const [editClientData,setEditClientData] = useState(null)
-  const handleModal = ()=>{
+  const [editClientData, setEditClientData] = useState(null)
+  const handleModal = () => {
     setActiveEditModal(!isEditModalActive)
   }
   const DeleteClient = async (id) => {
-    
     // creating a form data object
     let data = []
 
@@ -44,14 +43,14 @@ function CustomerInfo({ img, name, email, phone, id ,user}) {
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + String(authTokens.access),
-        }
+        },
       }
       //api request for create client
       axios
         .request(options)
         .then((res) => {
           handleToast('Client deleted succesfully', 'success')
-          
+
           window.location.reload()
         })
         .catch((err) => {
@@ -66,7 +65,6 @@ function CustomerInfo({ img, name, email, phone, id ,user}) {
     }
   }
   const handleDelete = (id) => {
-    
     confirmAlert({
       title: 'Confirm to delete',
       message: 'Are you sure to do this.',
@@ -84,73 +82,67 @@ function CustomerInfo({ img, name, email, phone, id ,user}) {
   }
 
   return (
-    <>
-      <tr className="border-b border-bgray-300 dark:border-darkblack-400">
-        <td className="">
-          <label className="text-center">
-            <input
-              type="checkbox"
-              className="h-5 w-5 cursor-pointer rounded-full border border-bgray-400 bg-transparent text-success-300 focus:outline-none focus:ring-0"
-            />
-          </label>
-        </td>
-        <td className="px-6 py-5 xl:px-0">
-          <div className="flex w-full items-center space-x-2.5">
-            {/* <div className="h-10 w-10 overflow-hidden rounded-full">
+    <tr className="border-b border-bgray-300 dark:border-darkblack-400">
+      <td className="">
+        <label className="text-center">
+          <input
+            type="checkbox"
+            className="h-5 w-5 cursor-pointer rounded-full border border-bgray-400 bg-transparent text-success-300 focus:outline-none focus:ring-0"
+          />
+        </label>
+      </td>
+      <td className="px-6 py-5 xl:px-0">
+        <div className="flex w-full items-center space-x-2.5">
+          {/* <div className="h-10 w-10 overflow-hidden rounded-full">
             <img
               src={img}
               alt="avatar"
               className="h-full w-full object-cover"
             />
           </div> */}
-            <p className="text-base font-semibold text-bgray-900 dark:text-white">
-              {name}
-            </p>
-          </div>
-        </td>
-        <td className="px-6 py-5 xl:px-0">
-          <p className="text-base font-medium text-bgray-900 dark:text-white">
-            {email}
+          <p className="text-base font-semibold text-bgray-900 dark:text-white">
+            {name}
           </p>
-        </td>
-        <td className="px-6 py-5 xl:px-0">
-          <p className="text-base font-medium text-bgray-900 dark:text-white">
-            {phone}
-          </p>
-        </td>
-        {/* <td className="w-[165px] px-6 py-5 xl:px-0">
+        </div>
+      </td>
+      <td className="px-6 py-5 xl:px-0">
+        <p className="text-base font-medium text-bgray-900 dark:text-white">
+          {email}
+        </p>
+      </td>
+      <td className="px-6 py-5 xl:px-0">
+        <p className="text-base font-medium text-bgray-900 dark:text-white">
+          {phone}
+        </p>
+      </td>
+      {/* <td className="w-[165px] px-6 py-5 xl:px-0">
         <p className="text-base font-semibold text-bgray-900 dark:text-white">
           ${spent}
         </p>
       </td> */}
-        <td className="px-6 py-5 xl:px-0">
-          <div className="flex justify-center">
-            <button
-              onClick={() => {
-                setEditClientData(user)
-                handleModal()
-              }}
-              aria-label="none"
-              type="button"
-              className="mr-3"
-            >
-              <FaPencilAlt />
-            </button>
-            <button onClick={()=>{
-
+      <td className="px-6 py-5 xl:px-0">
+        <div className="flex justify-center">
+          <button
+            onClick={() => {
+              setEditClientData(user)
+              handleModal()
+            }}
+            aria-label="none"
+            type="button"
+            className="mr-3"
+          >
+            <FaPencilAlt />
+          </button>
+          <button
+            onClick={() => {
               handleDelete(user?.id)
-            }}>
-              <FaTrashAlt />
-            </button>
-          </div>
-        </td>
-      </tr>
-      <AddClientModal
-        isActive={isEditModalActive}
-        handleClose={setActiveEditModal}
-        user={editClientData}
-      />
-    </>
+            }}
+          >
+            <FaTrashAlt />
+          </button>
+        </div>
+      </td>
+    </tr>
   )
 }
 

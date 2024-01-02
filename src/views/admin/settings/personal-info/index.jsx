@@ -81,7 +81,6 @@ function PersonalInfo() {
 
   //get user details
   const fetchUser = async (url) => {
-    console.log('get user')
     try {
       const userData = await getUser(queryParams, url)
       setUserInfo(userData)
@@ -183,7 +182,7 @@ function PersonalInfo() {
                         onClick={() => {
                           onImageUpload()
                         }}
-                        for="file-upload"
+                        htmlFor="file-upload"
                         className="z-20 flex flex-col-reverse items-center justify-center w-full h-full cursor-pointer"
                       >
                         <p className="z-10 text-xs font-light text-center text-gray-500">

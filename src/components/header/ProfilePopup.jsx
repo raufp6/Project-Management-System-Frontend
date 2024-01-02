@@ -22,7 +22,7 @@ function ProfilePopup({ active }) {
         <div className="relative w-full px-3 py-2">
           <div>
             <ul>
-              <li className="w-full">
+              <li key="1" className="w-full">
                 <Link to="/settings">
                   <div className="flex items-center space-x-[18px] rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900">
                     <div className="w-[20px]">
@@ -64,7 +64,7 @@ function ProfilePopup({ active }) {
                   </div>
                 </Link>
               </li>
-              <li className="w-full">
+              <li key="2" className="w-full">
                 <Link to="/messages">
                   <div className="flex items-center space-x-[18px] rounded-lg p-[14px] text-bgray-600 hover:bg-bgray-100 hover:text-bgray-900  ">
                     <div className="w-[20px]">
@@ -91,7 +91,7 @@ function ProfilePopup({ active }) {
                   </div>
                 </Link>
               </li>
-              <li className="w-full">
+              <li key="3" className="w-full">
                 <div className="flex items-center space-x-[18px] rounded-lg p-[14px] text-success-300">
                   <div className="w-[20px]">
                     <span>

@@ -55,6 +55,7 @@ status_list['canceled'] = {
 
 
 function ProjectInfoRow({
+  key,
   name,
   start_date,
   client,
@@ -128,7 +129,10 @@ function ProjectInfoRow({
 
   return (
     <>
-      <tr className="border-b border-bgray-300 dark:border-darkblack-400">
+      <tr
+        key={key}
+        className="border-b border-bgray-300 dark:border-darkblack-400"
+      >
         <td className="px-6 py-5 xl:px-0">
           <div className="flex w-full items-center space-x-2.5">
             {/* <div className="h-10 w-10 overflow-hidden rounded-full">
@@ -160,14 +164,14 @@ function ProjectInfoRow({
         </td>
         <td className="px-6 py-5 xl:px-0">
           <div className="mt-4 flex -space-x-2 overflow-hidden">
-            {members?.map((project, index) =>
-            <img
-              className="inline-block h-8 w-8 rounded-full ring ring-white"
-              src={groupImg1}
-              alt=""
-            />
-            )}
-            
+            {members?.map((project, index) => (
+              <img
+                className="inline-block h-8 w-8 rounded-full ring ring-white"
+                src={groupImg1}
+                alt=""
+              />
+            ))}
+
             {/* <div className="inline-flex justify-center h-8 w-8 rounded-full items-center text-gray-500 text-xs font-semibold bg-white">
               +5
             </div> */}

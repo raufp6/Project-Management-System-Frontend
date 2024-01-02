@@ -58,6 +58,7 @@ function Sidebar({ handleActive }) {
             </h4>
             <ul className="mt-2.5">
               <li
+                key="1"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/transaction' ? 'nav-active' : ''
                 } `}
@@ -94,6 +95,7 @@ function Sidebar({ handleActive }) {
               </li>
 
               <li
+                key="2"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/admin/staff' ? 'nav-active' : ''
                 } `}
@@ -135,6 +137,7 @@ function Sidebar({ handleActive }) {
               </li>
 
               <li
+                key="3"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/admin/client' ? 'nav-active' : ''
                 } `}
@@ -176,6 +179,7 @@ function Sidebar({ handleActive }) {
               </li>
 
               <li
+                key="4"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/admin/project/' ? 'nav-active' : ''
                 } `}
@@ -212,6 +216,7 @@ function Sidebar({ handleActive }) {
               </li>
 
               <li
+                key="5"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/admin/task' ? 'nav-active' : ''
                 } `}
@@ -247,6 +252,7 @@ function Sidebar({ handleActive }) {
                 </Link>
               </li>
               <li
+                key="6"
                 className={`item py-[11px] text-bgray-900 ${
                   location === '/admin/task' ? 'nav-active' : ''
                 } `}

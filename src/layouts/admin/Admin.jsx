@@ -15,13 +15,7 @@ import AuthContext from '../../context/AuthContext'
 function Admin() {
   const { user } = useContext(AuthContext)
   const overlay = false
-  const getRoutes1 = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === '/admin') {
-        return <Route path={prop.path} element={prop.component} />
-      }
-    })
-  }
+  
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.children) {

@@ -1,8 +1,8 @@
 import React from 'react'
 import totalEarn from '../../assets/images/icons/total-earn.svg'
-function TaskCompleted({ title, count }) {
+function TaskCompleted({  title, count }) {
   return (
-    <div className="rounded-lg bg-white p-5">
+    <div key={title} className="rounded-lg bg-white p-5">
       <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center space-x-[7px]">
           <div className="icon">

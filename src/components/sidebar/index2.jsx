@@ -16,7 +16,7 @@ function Sidebar() {
           PMS <span className="font-medium">LITE</span>
         </div>
       </div>
-      <div class="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30" />
+      <div className="mt-[58px] mb-7 h-px bg-gray-300 dark:bg-white/30" />
       {/* Nav item */}
       <ul className="mb-auto pt-1">
         <SidebarLinks routes={routes} />
