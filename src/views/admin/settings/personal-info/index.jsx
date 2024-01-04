@@ -1,7 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
 import ProtoTypes from 'prop-types'
-import profileImg from '../../../../assets/images/avatar/profile.png'
-import coverImg from '../../../../assets/images/others/cover.jpg'
 import PersonalInfoFrom from '../../../../components/form/PersonalInfoFrom'
 import AuthContext from '../../../../context/AuthContext'
 import {

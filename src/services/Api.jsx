@@ -11,7 +11,8 @@ import {
   TaskCountUrl,
   NotificationsUrl,
   UserGroupUrl,
-  UsertUrl
+  UsertUrl,
+  ChangePasswordUrl
 } from '../services/apiUrls'
 
 export const getGroups = async (params = null) => {
@@ -170,5 +171,15 @@ export const getNotifications = async (params) => {
       errorNotify('An error occurred while setting up the request')
       console.error('Request Setup Error:', error.message)
     }
+  }
+}
+// User password Change
+export const changePassword = async (ChangePasswordUrl, data) => {
+  try {
+    const response = await api_request.post(ChangePasswordUrl, data)
+    return response.data
+  } catch (error) {
+    console.error('Error:', error)
+    throw error // Propagate the error to the calling code
   }
 }

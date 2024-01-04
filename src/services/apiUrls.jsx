@@ -20,6 +20,7 @@ export const ClienttUrl = 'clients'
 
 //User
 export const UsertUrl = 'user/'
+export const ChangePasswordUrl = 'user/password-change/'
 //Staff
 export const StafftUrl = 'user/employee/'
 export const UserCountUrl = 'user/count/'
