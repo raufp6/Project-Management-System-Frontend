@@ -12,21 +12,14 @@ import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 // import status from '../../../../data/variables/'
 import { isAdmin } from '../../../../utils/Permission'
 import author6 from '../../../../assets/images/avatar/user-40x40-6.png'
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 import {
   DefaultNotify,
   sucessNotify,
   errorNotify,
 } from '../../../../utils/toastUtils'
-//Handle Toast Notifications
-const handleToast = (msg, type = 'default') => {
-  if (type == 'success') {
-    sucessNotify(msg)
-  } else if (type == 'error') {
-    errorNotify(msg)
-  } else {
-    DefaultNotify(msg)
-  }
-}
+
 var status = []
 status['incomplete'] = {
   title: 'In Complete',
@@ -60,13 +53,13 @@ priority_data['low'] = {
 }
 
 function TaskTab({ data, pageSize }) {
-  const { authTokens, logoutUser,user } = useContext(AuthContext)
-  console.log(user);
+  const { authTokens, logoutUser, user } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const [isEditModalActive, setActiveEditModal] = useState(false)
   const [editClientData, setEditClientData] = useState(null)
   const [showName, setShowName] = useState(false)
+
   const handleModal = () => {
     setActiveEditModal(!isEditModalActive)
   }
@@ -88,19 +81,19 @@ function TaskTab({ data, pageSize }) {
       axios
         .request(options)
         .then((res) => {
-          handleToast('Task deleted succesfully', 'success')
+          sucessNotify('Task deleted succesfully')
 
           window.location.reload()
         })
         .catch((err) => {
           var errors = err.response.data
           Object.keys(errors).forEach((key) => {
-            handleToast(key.toUpperCase() + ' : ' + errors[key][0], 'error')
+            errorNotify(key.toUpperCase() + ' : ' + errors[key][0])
           })
         })
     } catch (errors) {
       const errorMessages = errors.inner.map((error) => error.message)
-      handleToast(errorMessages.join('\n'), 'error')
+      errorNotify(errorMessages.join('\n'))
     }
   }
   const handleDelete = (id) => {
@@ -407,7 +400,10 @@ function TaskTab({ data, pageSize }) {
           {data?.map((task, index) =>
             pageSize
               ? index + 1 <= pageSize && (
-                  <tr key={index} className="border-b border-bgray-300 dark:border-darkblack-400">
+                  <tr
+                    key={index}
+                    className="border-b border-bgray-300 dark:border-darkblack-400"
+                  >
                     <td className="">
                       <label className="text-center">
                         <input
@@ -430,34 +426,24 @@ function TaskTab({ data, pageSize }) {
                         </p>
                       </div>
                     </td>
+
                     <td className="px-6 py-5 xl:px-0">
-                      <div className="w-full items-center space-x-2.5">
+                      <div className="mt-4 flex -space-x-2 overflow-hidden">
                         {task?.assigned_to.map((employee, index) => (
-                          <>
-                            <div
-                              className="h-10 w-10 overflow-hidden rounded-full relative"
-                              onMouseEnter={() => setShowName(true)}
-                              onMouseLeave={() => setShowName(false)}
-                            >
-                              <img
-                                src={employee.profile_pic}
-                                alt="avatar"
-                                className="h-full w-full object-cover"
-                              />
-                              {/* <p className="text-base font-semibold text-bgray-900 dark:text-white">
-                                {employee.first_name}
-                              </p> */}
-                              {showName && (
-                                <div className="absolute bottom-0 left-0 right-0 bg-black text-white p-2 text-center">
-                                  {employee.first_name} {employee.last_name}
-                                </div>
-                              )}
-                            </div>
-                            <p className="text-base font-semibold text-bgray-900 dark:text-white">
-                                {employee.first_name}
-                              </p>
-                          </>
+                          <img
+                            className="inline-block h-8 w-8 rounded-full ring ring-white"
+                            src={employee.profile_pic}
+                            alt=""
+                            data-tooltip-id={`my-tooltip-${index + 1}`}
+                            data-tooltip-content={employee.first_name +" "+ employee.last_name}
+                          />
                         ))}
+
+                        {/* <div className="inline-flex justify-center h-8 w-8 rounded-full items-center text-gray-500 text-xs font-semibold bg-white">
+              +5
+            </div> */}
+
+                        <Tooltip id={`my-tooltip-${index + 1}`} />
                       </div>
                     </td>
                     <td className="px-6 py-5 xl:px-0">
