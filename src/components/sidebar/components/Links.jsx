@@ -14,8 +14,6 @@ function SidebarLinks(props) {
   const activeRoute = (routeName) => {
     return location.pathname.includes(routeName)
   }
-  console.log("ds")
-  console.log(user)
 
   const createLink = (routes) => {
     return routes.map((route, key) => {

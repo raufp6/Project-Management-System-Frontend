@@ -12,7 +12,8 @@ import {
   NotificationsUrl,
   UserGroupUrl,
   UsertUrl,
-  ChangePasswordUrl
+  ChangePasswordUrl,
+  ChatUserUrl
 } from '../services/apiUrls'
 
 export const getGroups = async (params = null) => {
@@ -181,5 +182,28 @@ export const changePassword = async (ChangePasswordUrl, data) => {
   } catch (error) {
     console.error('Error:', error)
     throw error // Propagate the error to the calling code
+  }
+}
+
+
+//========== Chat ============//
+export const getChatUserData = async (params = null, url = ChatUserUrl) => {
+  try {
+    const response = await api_request.get(url, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
+  }
+}
+export const getChatMessageData = async (params = null, url = '') => {
+  try {
+    const response = await api_request.get(url, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
   }
 }

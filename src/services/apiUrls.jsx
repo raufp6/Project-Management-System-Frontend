@@ -30,3 +30,7 @@ export const UserGroupUrl = 'user/group/'
 //Notifications
 export const NotificationsUrl = 'task/get_notifications/'
 
+//Chat
+export const ChatUserUrl = 'chats/users/<userId>/chats'
+export const ChatMessageUrl = 'chats/<chatId>/messages'
+

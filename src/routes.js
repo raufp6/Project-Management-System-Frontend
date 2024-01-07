@@ -19,6 +19,8 @@ import ProjectView from './views/admin/project/ProjectView'
 import Settings from './views/admin/settings'
 import PersonalInfo from './views/admin/settings/personal-info'
 import PasswordReset from './views/admin/settings/password-rest'
+import Inbox from './views/admin/message'
+import Conversions from './components/massage/Conversions'
 // import Profile from 'views/admin/profile'
 // import DataTables from 'views/admin/tables'
 // import RTLDefault from 'views/rtl/default'
@@ -158,6 +160,20 @@ const routes = [
     secondary: true,
   },
   {
+    name: 'Message',
+    layout: '/admin',
+    path: 'message',
+    icon: <HiOutlineBriefcase className="h-6 w-6" />,
+    component: <Inbox />,
+    secondary: true,
+    children: [
+      {
+        path: 'c/:chatId',
+        component: <Conversions />,
+      },
+    ],
+  },
+  {
     name: 'Settings',
     layout: '/admin',
     path: 'settings',
@@ -174,26 +190,6 @@ const routes = [
         path: 'password-reset',
         component: <PasswordReset />,
       },
-      // {
-      //   path: 'program&resources',
-      //   element: <ProgramAndResources />,
-      // },
-      // {
-      //   path: 'payment',
-      //   element: <Payment />,
-      // },
-      // {
-      //   path: 'faq',
-      //   element: <Faq />,
-      // },
-      // {
-      //   path: 'security',
-      //   element: <Security />,
-      // },
-      // {
-      //   path: 'terms&conditions',
-      //   element: <TermsAndCondition />,
-      // },
     ],
   },
 ]

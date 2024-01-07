@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../../context/AuthContext'
-
 import { FaPencilAlt, FaTrashAlt, FaEye } from 'react-icons/fa'
 import AddClientModal from '../../../../components/modal/AddClientModal'
 import { confirmAlert } from 'react-confirm-alert' // Import
