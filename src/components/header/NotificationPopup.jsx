@@ -42,33 +42,33 @@ function NotificationPopup({ active, notifications_data }) {
   
 
   useEffect(() => {
-    // try{
-    //   //Connect Socket
-    //   const socket = new WebSocket(
-    //     `ws://127.0.0.1:8000/ws/notifications/${user.user_id}/`
-    //   )
-    //   // const socket = new WebSocket('ws://127.0.0.1:8000/ws/notifications/1/')
-    //   socket.onopen = () => {
-    //     console.log('WebSocket connected to notifications channel')
-    //   }
-    //   socket.onmessage = (event) => {
-    //     const newNotification = JSON.parse(event.data)
-    //     console.log('notification')
-    //     console.log(newNotification.data)
-    //     setNotifications((notifications) => [
-    //       ...notifications,
-    //       newNotification.data,
-    //     ])
-    //     DefaultNotify(
-    //       `Assigned new task from ${newNotification.data.actor_data['username']}`
-    //     )
-    //   }
-    //   socket.onclose = () => {
-    //     console.log('WebSocket disconnected from notifications channel')
-    //   }
-    // }catch(error){
-    //   console.log("Notification socket could not connect");
-    // }
+    try{
+      //Connect Socket
+      const socket = new WebSocket(
+        `ws://65.1.106.129/ws/notifications/${user.user_id}/`
+      )
+      // const socket = new WebSocket('ws://127.0.0.1:8000/ws/notifications/1/')
+      socket.onopen = () => {
+        console.log('WebSocket connected to notifications channel')
+      }
+      socket.onmessage = (event) => {
+        const newNotification = JSON.parse(event.data)
+        console.log('notification')
+        console.log(newNotification.data)
+        setNotifications((notifications) => [
+          ...notifications,
+          newNotification.data,
+        ])
+        DefaultNotify(
+          `Assigned new task from ${newNotification.data.actor_data['username']}`
+        )
+      }
+      socket.onclose = () => {
+        console.log('WebSocket disconnected from notifications channel')
+      }
+    }catch(error){
+      console.log("Notification socket could not connect");
+    }
     
 
 
