@@ -260,13 +260,13 @@ function StaffTab({ data, pageSize }) {
                       <div className="flex w-full items-center space-x-2.5">
                         <div className="h-10 w-10 overflow-hidden rounded-full">
                           <img
-                            src={user.profile_pic}
+                            src={user.user.profile_pic}
                             alt="avatar"
                             className="h-full w-full object-cover"
                           />
                         </div>
                         <p className="text-base font-semibold text-bgray-900 dark:text-white">
-                          {user.first_name + ' ' + user.last_name}
+                          {user.user.first_name + ' ' + user.user.last_name}
                         </p>
                       </div>
                     </td>
