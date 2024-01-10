@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api_request = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: process.env.REACT_APP_LOCAL_SERVER_URL,
 })
 
 
