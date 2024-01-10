@@ -61,10 +61,10 @@ function EditForm({ staff }) {
       [staff?.user.groups[0]],
     ])
 
-    setFirstName(staff?.first_name)
-    setLastName(staff?.last_name)
+    setFirstName(staff?.user.first_name)
+    setLastName(staff?.user.last_name)
     setPhone(staff?.phone)
-    setPrifilePic(staff?.profile_pic)
+    setPrifilePic(staff?.user.profile_pic)
     setJoindedDate(staff?.joined_date)
 
     
@@ -86,7 +86,7 @@ function EditForm({ staff }) {
   //create client
   const UpdateStaff = async (e) => {
     e.preventDefault()
-    console.log(e.target.image.files[0],"img")
+    // console.log(e.target.image.files[0],"img")
     // creating a form data object
     let data = {
       username: Username,
@@ -108,10 +108,10 @@ function EditForm({ staff }) {
       Object.entries(data).forEach(([key, value]) => {
         form.append(key, value)
       })
-      if (e.target.image.files[0]) {
-        console.log(e.target.image.files[0],"img have");
-        form.append('profile_pic', e.target.image.files[0])
-      }
+      // if (e.target.image.files[0]) {
+      //   // console.log(e.target.image.files[0],"img have");
+      //   //form.append('profile_pic', e.target.image.files[0])
+      // }
       //api option
       const options = {
         method: 'PATCH',
