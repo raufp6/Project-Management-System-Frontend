@@ -80,7 +80,7 @@ function EditForm({ users, projects,task }) {
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/task/${task.id}/update/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}task/${task.id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
           'content-type': 'application/json',

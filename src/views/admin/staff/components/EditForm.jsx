@@ -115,7 +115,7 @@ function EditForm({ staff }) {
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/user/employee/${staff.id}/update/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}user/employee/${staff.id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
           'Content-Type': 'multipart/form-data',

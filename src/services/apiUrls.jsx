@@ -1,5 +1,5 @@
 // authurl
-export const SERVER = 'http://127.0.0.1:8000/api/'
+export const SERVER = process.env.REACT_APP_LOCAL_SERVER_URL
 export const LoginUrl = 'auth/login'
 export const RegisterUrl = 'auth/register'
 export const ForgotPasswordUrl = 'auth/forgot-password'

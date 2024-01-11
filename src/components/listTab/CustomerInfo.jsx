@@ -39,7 +39,7 @@ function CustomerInfo({ img, name, email, phone, id, user }) {
       //api option
       const options = {
         method: 'DELETE',
-        url: `http://127.0.0.1:8000/api/clients/${id}/delete/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}clients/${id}/delete/`,
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + String(authTokens.access),

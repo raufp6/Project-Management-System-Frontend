@@ -58,7 +58,7 @@ function AddForm() {
       //api option
       const options = {
         method: 'POST',
-        url: 'http://127.0.0.1:8000/api/clients/create/',
+        url: process.env.REACT_APP_LOCAL_SERVER_URL+'clients/create/',
         params: { 'api-version': '3.0' },
         headers: {
           'content-type': 'application/json',

@@ -40,7 +40,7 @@ function StaffTab({ data, pageSize }) {
       //api option
       const options = {
         method: 'DELETE',
-        url: `http://127.0.0.1:8000/api/user/${id}/delete/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}user/${id}/delete/`,
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + String(authTokens.access),

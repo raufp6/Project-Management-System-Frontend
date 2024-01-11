@@ -41,7 +41,7 @@ function PasswordResetFrom() {
       //api option
       const options = {
         method: 'POST',
-        url: `http://127.0.0.1:8000/api/user/password-change/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}user/password-change/`,
         params: { 'api-version': '3.0' },
         headers: {
           'Content-Type': 'application/json',

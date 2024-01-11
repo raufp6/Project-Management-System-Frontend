@@ -37,7 +37,7 @@ function AddProject() {
   
   //get client list
   const getClientList = async () => {
-    let response = await fetch('http://127.0.0.1:8000/api/clients/', {
+    let response = await fetch(process.env.REACT_APP_LOCAL_SERVER_URL+'clients/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ function AddProject() {
   //get project details
   const getProjectDetails = async () => {
     // let response = await fetch(
-    //   `http://127.0.0.1:8000/api/project/${id}`,
+    //   `${process.env.REACT_APP_LOCAL_SERVER_URL}project/${id}`,
     //   {
     //     method: 'GET',
     //     headers: {
@@ -77,7 +77,7 @@ function AddProject() {
       //api option
       const options = {
         method: 'GET',
-        url: `http://127.0.0.1:8000/api/project/${id}`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}project/${id}`,
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + String(authTokens.access),

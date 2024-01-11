@@ -77,7 +77,7 @@ function AddForm({ clients,project }) {
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/project/${project.id}/update/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}project/${project.id}/update/`,
         params: { 'api-version': '1.0' },
         headers: {
           'content-type': 'application/json',

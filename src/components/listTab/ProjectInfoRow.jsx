@@ -84,7 +84,7 @@ function ProjectInfoRow({
       //api option
       const options = {
         method: 'DELETE',
-        url: `http://127.0.0.1:8000/api/project/${id}/delete/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}project/${id}/delete/`,
         headers: {
           'content-type': 'application/json',
           Authorization: 'Bearer ' + String(authTokens.access),

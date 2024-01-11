@@ -19,7 +19,7 @@ function TaskResources() {
   const { id } = useParams()
   //Get Task Files
   const getTaskFiles = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/task/files/${id}/`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER_URL}task/files/${id}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function TaskResources() {
     try {
       
       let response = await fetch(
-        `http://127.0.0.1:8000/api/task/file/${fileId}/delete/`,
+        `${process.env.REACT_APP_LOCAL_SERVER_URL}task/file/${fileId}/delete/`,
         {
           method: 'DELETE',
           headers: {

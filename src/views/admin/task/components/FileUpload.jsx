@@ -33,7 +33,7 @@ export default function FileUploadModal({ onclickhandle, modelstatus, onFileUplo
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/task/file/${id}/upload/`,
+        `${process.env.REACT_APP_LOCAL_SERVER_URL}task/file/${id}/upload/`,
         {
           method: 'POST',
           body: formData,
@@ -60,7 +60,7 @@ export default function FileUploadModal({ onclickhandle, modelstatus, onFileUplo
         formData.append('file', file)
         const options = {
           method: 'POST',
-          url: `http://127.0.0.1:8000/api/task/file/${id}/upload/`,
+          url: `${process.env.REACT_APP_LOCAL_SERVER_URL}task/file/${id}/upload/`,
           params: { 'api-version': '3.0' },
           headers: {
             'Content-Type': 'multipart/form-data',

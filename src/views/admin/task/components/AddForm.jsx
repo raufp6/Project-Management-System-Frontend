@@ -58,7 +58,7 @@ function AddForm({ projects,users }) {
       //api option
       const options = {
         method: 'POST',
-        url: 'http://127.0.0.1:8000/api/task/create/',
+        url: process.env.REACT_APP_LOCAL_SERVER_URL+'task/create/',
         params: { 'api-version': '3.0' },
         headers: {
           'content-type': 'application/json',
@@ -95,7 +95,7 @@ function AddForm({ projects,users }) {
   }
   //get project details
   const getProjectAssignedMembers = async (id) => {
-    let response = await fetch(`http://127.0.0.1:8000/api/task/${id}`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER_URL}task/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

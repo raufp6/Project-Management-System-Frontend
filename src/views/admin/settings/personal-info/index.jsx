@@ -46,7 +46,7 @@ function PersonalInfo() {
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/user/${user.user_id}/update/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}user/${user.user_id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
           'Content-Type': 'multipart/form-data',

@@ -16,7 +16,7 @@ function TaskView() {
 
   //get project details
   const getTask = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/task/${id}`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER_URL}task/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ function TaskView() {
   }
   //Get Task Files
   const getTaskFiles = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/task/files/${id}/`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER_URL}task/files/${id}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

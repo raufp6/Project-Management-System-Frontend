@@ -22,7 +22,7 @@ function EditStaff() {
 
   //get staff details
   const getStaff = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/api/user/employee/${id}/`, {
+    let response = await fetch(`${process.env.REACT_APP_LOCAL_SERVER_URL}user/employee/${id}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

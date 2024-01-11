@@ -68,7 +68,7 @@ function AddClientModal({ isActive, handleClose,user }) {
       //api option
       const options = {
         method: 'PATCH',
-        url: `http://127.0.0.1:8000/api/clients/${id}/update/`,
+        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}clients/${id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
           'content-type': 'application/json',

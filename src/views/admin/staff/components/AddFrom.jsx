@@ -82,7 +82,7 @@ function AddForm() {
       })
       const options = {
         method: 'POST',
-        url: 'http://127.0.0.1:8000/api/user/create/',
+        url: process.env.REACT_APP_LOCAL_SERVER_URL+'user/create/',
         params: { 'api-version': '3.0' },
         headers: {
           'Content-Type': 'multipart/form-data',
