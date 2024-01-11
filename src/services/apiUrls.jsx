@@ -5,17 +5,17 @@ export const RegisterUrl = 'auth/register'
 export const ForgotPasswordUrl = 'auth/forgot-password'
 
 //Task 
-export const TaskUrl = 'task'
+export const TaskUrl = 'task/'
 export const TaskCountUrl = 'task/count/'
 export const TaskFilesUrl = 'task/files/'
 
 //Project
-export const ProjectUrl = 'project'
+export const ProjectUrl = 'project/'
 export const ProjectCountUrl = 'project/count/'
 export const CreateProjectUrl = 'project/create/'
 
 // Client
-export const ClienttUrl = 'clients'
+export const ClienttUrl = 'clients/'
 
 
 //User
