@@ -26,7 +26,6 @@ function PersonalInfoFrom({ userInfo }) {
     let data = {
       first_name: FirstName,
       last_name: LastName,
-      email: Email,
     }
     try {
       await Schema.validate(data, { abortEarly: false })
@@ -37,7 +36,7 @@ function PersonalInfoFrom({ userInfo }) {
       //api option
       const options = {
         method: 'PATCH',
-        url: `${process.env.REACT_APP_LOCAL_SERVER_URL}user/${user.user_id}/update/`,
+        url: `http://127.0.0.1:8000/api/user/${user.user_id}/update/`,
         params: { 'api-version': '3.0' },
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -123,6 +122,8 @@ function PersonalInfoFrom({ userInfo }) {
                 Email
               </label>
               <input
+                readOnly
+                disabled
                 value={Email}
                 type="text"
                 className="bg-bgray-50 dark:bg-darkblack-500 dark:text-white p-4 rounded-lg h-14 border-0 focus:border focus:border-success-300 focus:ring-0"

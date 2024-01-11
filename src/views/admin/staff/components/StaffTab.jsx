@@ -294,8 +294,8 @@ function StaffTab({ data, pageSize }) {
                         </Link>
                         <button
                           onClick={() => {
-                            handleDelete(user?.id)
-                          }}
+                            handleDelete(user?.user.id)
+                          }} 
                         >
                           <FaTrashAlt />
                         </button>
