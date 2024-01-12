@@ -17,9 +17,9 @@ import CommonUtil from '../../utils/commonUtil'
 import moment from 'moment'
 
 const userid = CommonUtil.getUserId()
-let socket = new WebSocket(
-  process.env.REACT_APP_WS_SERVER_URL + 'chat/' + userid + '/chat/'
-)
+// let socket = new WebSocket(
+//   process.env.REACT_APP_WS_SERVER_URL + 'chat/' + userid + '/chat/'
+// )
 
 export default function Conversions({
   currentChattingMember,
@@ -30,15 +30,47 @@ export default function Conversions({
   const [inputMessage, setInputMessage] = useState('')
   const [messages, setMessages] = useState({})
   const [typing, setTyping] = useState(false)
-  // const [socket, setSocket] = useState(null)
+  const [socket, setSocket] = useState(null)
   const { chatId } = useParams()
 
-  socket.onopen = () => console.log('WebSocket connected')
+  // socket.onopen = () => console.log('WebSocket connected')
   const fetchChatMessage = async () => {
     const url = ChatMessageUrl.replace('<chatId>', chatId)
     const ChatMessageData = await getChatMessageData({}, url)
     setMessages(ChatMessageData)
   }
+
+  useEffect(() => {
+    const socket_new = new WebSocket(
+      process.env.REACT_APP_WS_SERVER_URL + 'chat/' + user.user_id + '/chat/'
+    )
+    socket_new.onopen = () => console.log('WebSocket connected')
+    setSocket(socket_new)
+
+    socket_new.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      const userId = user.user_id
+      if (chatId === data.roomId) {
+        if (data.action === SocketActions.MESSAGE) {
+          data['userImage'] = data.profile_pic
+          setMessages((prevState) => {
+            let messagesState = JSON.parse(JSON.stringify(prevState))
+            messagesState.results.push(data)
+            return messagesState
+          })
+          setTyping(false)
+        } else if (
+          data.action === SocketActions.TYPING &&
+          data.user !== userId
+        ) {
+          setTyping(data.typing)
+        }
+      }
+      if (data.action === SocketActions.ONLINE_USER) {
+        // setOnlineUserList(data.userList)
+      }
+    }
+  }, [])
 
   // useEffect(() => {
   //   if (!socket) {
@@ -78,26 +110,7 @@ export default function Conversions({
 
   //   // setMessages((messages) => [...messages, data.message])
   // }
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data)
-    const userId = user.user_id
-    if (chatId === data.roomId) {
-      if (data.action === SocketActions.MESSAGE) {
-        data['userImage'] = data.profile_pic
-        setMessages((prevState) => {
-          let messagesState = JSON.parse(JSON.stringify(prevState))
-          messagesState.results.push(data)
-          return messagesState
-        })
-        setTyping(false)
-      } else if (data.action === SocketActions.TYPING && data.user !== userId) {
-        setTyping(data.typing)
-      }
-    }
-    if (data.action === SocketActions.ONLINE_USER) {
-      // setOnlineUserList(data.userList)
-    }
-  }
+
   const messageSubmitHandler = () => {
     console.log('send message start')
     if (inputMessage) {
@@ -132,7 +145,7 @@ export default function Conversions({
               key={index}
               img={uSm}
               text={removeHTMLTags(message.message)}
-              time={moment(message.timestamp).format("hh:mm")}
+              time={moment(message.timestamp).format('hh:mm')}
               self={getChatMessageClassName(message.user)}
             />
           ))}
