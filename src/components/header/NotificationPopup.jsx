@@ -39,13 +39,14 @@ function NotificationPopup({ active, notifications_data }) {
   const { user } = useContext(AuthContext)
   const [notifications,setNotifications] = useState([])
   const [queryParams, setqueryParams] = useState([])
+  const [socket, setSocket] = useState(null)
   
 
   useEffect(() => {
     try{
       //Connect Socket
       const socket = new WebSocket(
-        `ws://65.1.106.129/ws/notifications/${user.user_id}/`
+        `ws://127.0.0.1:8000/ws/notifications/${user.user_id}/`
       )
       // const socket = new WebSocket('ws://127.0.0.1:8000/ws/notifications/1/')
       socket.onopen = () => {

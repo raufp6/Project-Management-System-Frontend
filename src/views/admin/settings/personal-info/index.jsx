@@ -89,7 +89,7 @@ function PersonalInfo() {
   }
 
   useEffect(() => {
-    fetchUser(UsertUrl + user.user_id)
+    fetchUser(UsertUrl + user.user_id+"/")
   }, [queryParams])
 
   return (

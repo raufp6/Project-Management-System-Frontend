@@ -135,7 +135,7 @@ export default function FileUploadModal({ onclickhandle, modelstatus, onFileUplo
                         onChange={handleFileChange}
                       />
                       <label
-                        for="file-upload"
+                        htmlFor="file-upload"
                         className="z-20 flex flex-col-reverse items-center justify-center w-full h-full cursor-pointer"
                       >
                         <p className="z-10 text-xs font-light text-center text-gray-500">

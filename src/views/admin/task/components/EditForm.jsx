@@ -264,7 +264,7 @@ function EditForm({ users, projects,task }) {
             {users?.map((user, index) => {
               return (
                 <option value={user.id} selected={User == user.id}>
-                  {user.first_name + ' ' + user.last_name}
+                  {user.user.first_name + ' ' + user.user.last_name}
                 </option>
               )
             })}

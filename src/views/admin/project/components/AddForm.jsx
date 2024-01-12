@@ -234,7 +234,7 @@ function AddForm({ clients }) {
             onChange={handleChange}
           >
             {users?.map((emplyee, index) => {
-              return <option value={emplyee.id}>{emplyee.first_name+" "+emplyee.last_name}</option>
+              return <option value={emplyee.id}>{emplyee.user.first_name+" "+emplyee.user.last_name}</option>
             })}
           </select>
         </div>

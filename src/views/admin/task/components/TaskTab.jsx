@@ -431,10 +431,10 @@ function TaskTab({ data, pageSize }) {
                         {task?.assigned_to.map((employee, index) => (
                           <img
                             className="inline-block h-8 w-8 rounded-full ring ring-white"
-                            src={employee.profile_pic}
+                            src={employee.user.profile_pic}
                             alt=""
                             data-tooltip-id={`my-tooltip-${index + 1}`}
-                            data-tooltip-content={employee.first_name +" "+ employee.last_name}
+                            data-tooltip-content={employee.user.first_name +" "+ employee.user.last_name}
                           />
                         ))}
 

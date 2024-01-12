@@ -1,6 +1,6 @@
 export const isAdmin = (role) => {
     console.log(role);
-  if (role === 'Admin' || role == 'Super user') {
+  if (role === 'Admin' || role === 'Super User') {
     return true
   } else {
     return false
