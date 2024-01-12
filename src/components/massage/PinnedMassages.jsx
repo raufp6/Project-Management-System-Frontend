@@ -61,7 +61,6 @@ function PinnedMassages(props) {
           >
             <PinnedMassage
               key={member.id}
-              pinnedMassage={pinnedMassages[0]}
               member={member}
             />
           </Link>

@@ -69,13 +69,16 @@ function ChatBoxLeftBar(props) {
       <SidebarHeader />
       <div className="pt-6">
         {/* Pinned Message  */}
-        <PinnedMassages
+        {/* <PinnedMassages
+          chatUsers={chatUsers}
+          setCurrentChattingMember={props.setCurrentChattingMember}
+        /> */}
+        {/* All Message  */}
+
+        <AllMessages
           chatUsers={chatUsers}
           setCurrentChattingMember={props.setCurrentChattingMember}
         />
-        {/* All Message  */}
-
-        <AllMessages />
       </div>
     </aside>
   )

@@ -21,7 +21,7 @@ function Inbox({ children }) {
   const [typing, setTyping] = useState(false)
   const [socket, setSocket] = useState(null)
   const [currentChattingMember, setCurrentChattingMember] = useState({})
-
+  const [onlineUserList, setOnlineUserList] = useState([])
 
   return (
     <main className="pt-[108px]">
@@ -32,9 +32,15 @@ function Inbox({ children }) {
         <AllMessageRes />
 
         {/* Middle Column */}
-        {/* <Conversions /> */}
-        <Outlet />
-        {children}
+        {currentChattingMember ? (
+          <Conversions
+            currentChattingMember={currentChattingMember}
+            setOnlineUserList={setOnlineUserList}
+          />
+        ) : null}
+
+        {/* <Outlet />
+        {children} */}
         {/* Right Column  */}
       </section>
     </main>

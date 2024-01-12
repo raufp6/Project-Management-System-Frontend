@@ -14,12 +14,12 @@ function SendMassage({
     // console.log(value)
     const regex = /(<([^>]+)>)/gi
     const result = value.replace(regex, '')
-    onsetInputMessage(result)
+    onsetInputMessage(value)
     console.log(result)
   }
 
   return (
-    <div className="lg:absolute bottom-10 lg:px-11 px-5 lg:mb-0 mb-5 w-full">
+    <div className="bottom-10 lg:px-11 px-5 lg:mb-0 mb-5 w-full">
       <div>
         <ReactQuill
           value={inputMessage}

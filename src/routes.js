@@ -166,12 +166,21 @@ const routes = [
     icon: <HiOutlineBriefcase className="h-6 w-6" />,
     component: <Inbox />,
     secondary: true,
-    children: [
-      {
-        path: 'c/:chatId',
-        component: <Conversions />,
-      },
-    ],
+    // children: [
+    //   {
+    //     path: 'c/:chatId',
+    //     component: <Conversions />,
+    //   },
+    // ],
+  },
+  {
+    name: 'Message',
+    layout: '/admin',
+    path: 'message/c/:chatId',
+    icon: <HiOutlineBriefcase className="h-6 w-6" />,
+    component: <Inbox />,
+    secondary: true,
+    
   },
   {
     name: 'Settings',

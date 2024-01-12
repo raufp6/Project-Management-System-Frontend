@@ -13,7 +13,8 @@ import {
   UserGroupUrl,
   UsertUrl,
   ChangePasswordUrl,
-  ChatUserUrl
+  ChatUserUrl,
+  MyChatUsersUrl
 } from '../services/apiUrls'
 
 export const getGroups = async (params = null) => {
@@ -207,3 +208,15 @@ export const getChatMessageData = async (params = null, url = '') => {
     console.error('Error:', errors.code)
   }
 }
+export const getMyChatUsersData = async (params = null, url = MyChatUsersUrl) => {
+  try {
+    const response = await api_request.get(MyChatUsersUrl, { params })
+    return response.data
+  } catch (errors) {
+    const errorMessages = errors.inner.map((error) => error.message)
+    errorNotify(errorMessages.join('\n'))
+    console.error('Error:', errors.code)
+  }
+}
+
+

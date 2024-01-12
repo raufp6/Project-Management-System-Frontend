@@ -12,66 +12,76 @@ import {
   errorNotify,
 } from '../../utils/toastUtils'
 
-const notifications_area = (notifications)=>{
+const notifications_area = (notifications) => {
   {
     return notifications.map((prop, key) => (
-        
-          <li key={key} className="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100  ">
-          <Link to="#">
-            <div className="noti-item">
-              <p className="mb-1 text-sm font-medium text-bgray-600 ">
-                <strong className="text-bgray-900 ">
-                  {prop.verb} from {prop?.actor_data['username']}
-                </strong>
-              </p>
-              <span className="text-xs font-medium text-bgray-500">
-                {moment(prop.timestamp).fromNow()}
-              </span>
-            </div>
-          </Link>
-          </li>
-        
-      ))
+      <li
+        key={key}
+        className="border-b border-bgray-200 py-4 pl-6 pr-[50px] hover:bg-bgray-100  "
+      >
+        <Link to="#">
+          <div className="noti-item">
+            <p className="mb-1 text-sm font-medium text-bgray-600 ">
+              <strong className="text-bgray-900 ">
+                {prop.verb} from {prop?.actor_data['username']}
+              </strong>
+            </p>
+            <span className="text-xs font-medium text-bgray-500">
+              {moment(prop.timestamp).fromNow()}
+            </span>
+          </div>
+        </Link>
+      </li>
+    ))
   }
 }
 
 function NotificationPopup({ active, notifications_data }) {
   const { user } = useContext(AuthContext)
-  const [notifications,setNotifications] = useState([])
+  const [notifications, setNotifications] = useState([])
   const [queryParams, setqueryParams] = useState([])
   const [socket, setSocket] = useState(null)
-  
 
   useEffect(() => {
-    try{
-      //Connect Socket
-      const socket = new WebSocket(
-        `ws://127.0.0.1:8000/ws/notifications/${user.user_id}/`
-      )
-      // const socket = new WebSocket('ws://127.0.0.1:8000/ws/notifications/1/')
-      socket.onopen = () => {
-        console.log('WebSocket connected to notifications channel')
-      }
-      socket.onmessage = (event) => {
-        const newNotification = JSON.parse(event.data)
-        console.log('notification')
-        console.log(newNotification.data)
-        setNotifications((notifications) => [
-          ...notifications,
-          newNotification.data,
-        ])
-        DefaultNotify(
-          `Assigned new task from ${newNotification.data.actor_data['username']}`
+    try {
+      if (!socket) {
+        //Connect Socket
+        const socket = new WebSocket(
+          `${process.env.REACT_APP_WS_SERVER_URL}notifications/${user.user_id}/`
         )
+        // const socket = new WebSocket('ws://127.0.0.1:8000/ws/notifications/1/')
+        socket.onopen = () => {
+          console.log('WebSocket connected to notifications channel')
+        }
+        socket.onmessage = (event) => {       
+          const newNotification = JSON.parse(event.data)
+          console.log('notification')
+          console.log(newNotification.data)
+          setNotifications((notifications) => [
+            ...notifications,
+            newNotification.data,
+          ])
+          DefaultNotify(
+            `Assigned new task from ${newNotification.data.actor_data['username']}`
+          )
+        }
+        socket.onclose = () => {
+          console.log('WebSocket disconnected from notifications channel')
+        }
+        setSocket(socket)
       }
-      socket.onclose = () => {
-        console.log('WebSocket disconnected from notifications channel')
-      }
-    }catch(error){
-      console.log("Notification socket could not connect");
+    } catch (error) {
+      console.log('Notification socket could not connect')
     }
-    
+    // return () => {
+    //   if (socket) {
+    //     socket.close()
+    //   }
+    // }
+  }, [[user.user_id]])
 
+  useEffect(() => {
+    
 
     const fetchAllNotifications = async () => {
       try {
@@ -83,7 +93,7 @@ function NotificationPopup({ active, notifications_data }) {
     }
     fetchAllNotifications()
   }, [queryParams])
-  
+
   //console.log(notifications)
   return (
     <div className="notification-popup-wrapper text-left overflow-y-hidden">
@@ -99,7 +109,6 @@ function NotificationPopup({ active, notifications_data }) {
         <div className="relative w-full pb-[75px] pt-[66px] overflow-y-hidden">
           <div className="absolute left-0 top-0 flex h-[66px] w-full items-center justify-between px-8">
             <h3 className="text-xl font-bold text-bgray-900 ">Notifications</h3>
-            
           </div>
           <ul className="scroll-style-1 h-[335px] w-full overflow-y-scroll">
             {notifications_area(notifications)}

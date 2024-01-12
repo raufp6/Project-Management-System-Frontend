@@ -1,10 +1,15 @@
 import { jwtDecode } from 'jwt-decode'
 
 const getUserId = () => {
-  let decodedToken = localStorage.getItem('authTokens')
-    ? jwtDecode(localStorage.getItem('authTokens'))
-    : null
-  return decodedToken.user_id
+  try{
+    let decodedToken = localStorage.getItem('authTokens')
+      ? jwtDecode(localStorage.getItem('authTokens'))
+      : null
+    return decodedToken.user_id
+  }catch(error){
+
+  }
+  
 }
 const getFormatedChatUser = (chatUsers, onlineUserList) => {
   const userId = getUserId()

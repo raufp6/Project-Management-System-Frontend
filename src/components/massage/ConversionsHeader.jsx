@@ -1,17 +1,21 @@
 import ProtoTypes from "prop-types";
 import authorImg from "../../assets/images/message/user-t.png";
 
-function ConversionsHeader({ toggleSetting }) {
+function ConversionsHeader({ toggleSetting, currentChattingMember }) {
   return (
     <header className="bg-white dark:bg-darkblack-600 p-5 lg:pr-24 flex justify-between items-center border-t border-bgray-300 dark:border-darkblack-400">
       <div className="flex space-x-3">
         <div className="relative">
-          <img src={authorImg} className="w-12 h-12 rounded-full" alt="" />
+          <img
+            src={currentChattingMember?.image}
+            className="w-12 h-12 rounded-full"
+            alt=""
+          />
           <span className="bg-success-300 dark:border-bgray-900 border-2 border-white block w-[14px] h-[14px] rounded-full absolute bottom-1 right-0"></span>
         </div>
         <div>
           <h4 className="text-base font-bold text-bgray-900 dark:text-white">
-            Ajoy Sarkar
+            {currentChattingMember?.name}
           </h4>
           <span className="text-sm text-bgray-600">Online</span>
         </div>
@@ -53,7 +57,7 @@ function ConversionsHeader({ toggleSetting }) {
         </svg> */}
       </button>
     </header>
-  );
+  )
 }
 
 ConversionsHeader.propTypes = {

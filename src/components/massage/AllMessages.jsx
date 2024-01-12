@@ -1,7 +1,9 @@
-import { allMassage } from "../../data/massage";
-import PinnedMassage from "./PinnedMassage";
+import { allMassage } from '../../data/massage'
+import PinnedMassage from './PinnedMassage'
+import { Link } from 'react-router-dom'
+import { pinnedMassages } from '../../data/massage'
 
-function AllMessages() {
+function AllMessages(props) {
   return (
     <div className="pt-4">
       <div className="flex items-center justify-between">
@@ -51,12 +53,18 @@ function AllMessages() {
         </div>
       </div>
       <ul className="pt-2 divide-y divide-bgray-300 dark:divide-darkblack-400">
-        {allMassage?.map((item) => (
-          <PinnedMassage key={item.id} pinnedMassage={item} />
+        {props.chatUsers.map((member) => (
+          <Link
+            to={`/admin/message/c/${member?.roomId}`}
+            key={member?.id}
+            onClick={() => props.setCurrentChattingMember(member)}
+          >
+            <PinnedMassage key={member.id} member={member} />
+          </Link>
         ))}
       </ul>
     </div>
-  );
+  )
 }
 
-export default AllMessages;
+export default AllMessages
