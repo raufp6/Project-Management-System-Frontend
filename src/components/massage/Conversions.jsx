@@ -42,7 +42,7 @@ export default function Conversions({
 
   useEffect(() => {
     const socket_new = new WebSocket(
-      'wss://visitkeralaonline.com/ws/' + 'chat/' + user.user_id + '/chat/'
+      process.env.REACT_APP_WS_SERVER_URL + 'chat/' + user.user_id + '/chat/'
     )
     socket_new.onopen = () => console.log('WebSocket connected')
     setSocket(socket_new)

@@ -45,7 +45,7 @@ function NotificationPopup({ active, notifications_data }) {
     try{
       //Connect Socket
       const socket = new WebSocket(
-        `wss://visitkeralaonline.com/ws/notifications/${user.user_id}/`
+        `${process.env.REACT_APP_WS_SERVER_URL}notifications/${user.user_id}/`
       )
       // const socket = new WebSocket('ws://65.1.106.129:8001/ws/notifications/1/')
       socket.onopen = () => {
