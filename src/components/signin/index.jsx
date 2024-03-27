@@ -4,7 +4,17 @@ import AuthContext from '../../context/AuthContext'
 function LeftSide() {
   const [modalOpen, setModalOpen] = useState(false)
   const {loginUser} = useContext(AuthContext)
+  const [type, setType] = useState('password')
   const navigate = useNavigate()
+  const onClickHandleOfPasswordView = ()=>{
+    console.log("aaaaa");
+    if(type == 'password'){
+      setType('text')
+    }else{
+      setType('password')
+    }
+    
+  }
 
   return (
     <div className="lg:w-1/2 px-5 xl:pl-12 pt-10">
@@ -31,14 +41,15 @@ function LeftSide() {
           </div>
           <div className="mb-6 relative">
             <input
-              type="password"
+              type={type}
               className="text-bgray-800 text-base border border-bgray-300 dark:border-darkblack-400 dark:bg-darkblack-500 dark:text-white h-14 w-full focus:border-success-300 focus:ring-0 rounded-lg px-4 py-3.5 placeholder:text-bgray-500 placeholder:text-base"
               placeholder="Password"
               name="password"
             />
-            <button
+            <span
               aria-label="none"
               className="absolute top-4 right-4 bottom-4"
+              onClick={onClickHandleOfPasswordView}
             >
               <svg
                 width="22"
@@ -69,7 +80,7 @@ function LeftSide() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </button>
+            </span>
           </div>
           <div className="flex justify-between mb-7">
             <div className="flex items-center space-x-3">
@@ -102,7 +113,6 @@ function LeftSide() {
           >
             Login
           </button>
-          
         </form>
 
         <p className="text-bgray-600 dark:text-white text-center text-sm mt-6">
